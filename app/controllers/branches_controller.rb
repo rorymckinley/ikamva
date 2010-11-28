@@ -4,4 +4,8 @@ class BranchesController < ApplicationController
   end
   def new
   end
+  def create
+    Branch.create! :name => params[:name]
+    redirect_to(:action => :index)
+  end
 end
