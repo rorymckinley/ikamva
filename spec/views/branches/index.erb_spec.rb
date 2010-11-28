@@ -12,6 +12,11 @@ describe "branches/index.erb" do
     rendered.should contain("Test 1")
     rendered.should contain("Test 2")
   end
+  it "should provide a link to the form for creating a new branch" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    render
+    rendered.should have_selector("a", :href => new_branch_path)
+  end
 end
 
 
