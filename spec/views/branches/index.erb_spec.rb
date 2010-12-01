@@ -17,6 +17,17 @@ describe "branches/index.erb" do
     render
     rendered.should have_selector("a", :href => new_branch_path)
   end
+  it "should display any flash messages related to the branch" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    flash[:branch] = 'Bah!'
+    render
+    rendered.should contain(flash[:branch])
+  end
+  it "should provide each listed branch with an edit link" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    render
+    rendered.should have_selector("a", :href => edit_branch_path(@branch_1))
+  end
 end
 
 

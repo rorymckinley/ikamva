@@ -6,6 +6,7 @@ describe "branches/new.erb" do
     rendered.should have_selector("form", :method => "post", :action => branches_path) do |form|
       form.should have_selector("input", :type => "text", :name => "name")
       form.should have_selector("input", :type => "submit")
+      form.should have_selector("input", :type => "hidden", :name => "authenticity_token")
     end
   end
 end
