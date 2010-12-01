@@ -1,5 +1,7 @@
 Ikamva::Application.routes.draw do
-  resources :branches
+  resources :branches do
+    resources :session
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

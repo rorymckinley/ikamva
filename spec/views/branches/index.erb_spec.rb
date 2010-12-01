@@ -28,6 +28,11 @@ describe "branches/index.erb" do
     render
     rendered.should have_selector("a", :href => edit_branch_path(@branch_1))
   end
+  it "should provide each branch with a link to create a new session" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    render
+    rendered.should have_selector("a", :href => new_branch_session_path(@branch_1))
+  end
 end
 
 
