@@ -1,7 +1,7 @@
-class Session < ActiveRecord::Base
+class Event < ActiveRecord::Base
   belongs_to :branch
 
-  def self.session_types
+  def self.event_types
     [
       [ 'Branchcom Meeting', 'branchcom' ],
       [ 'Excursion', 'excursion' ],

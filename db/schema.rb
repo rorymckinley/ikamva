@@ -16,12 +16,11 @@ ActiveRecord::Schema.define(:version => 20101205074335) do
     t.string "name"
   end
 
-  create_table "sessions", :force => true do |t|
+  create_table "events", :force => true do |t|
     t.string   "type"
     t.integer  "branch_id"
     t.datetime "start"
     t.datetime "end"
-    t.datetime "late_after"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

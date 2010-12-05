@@ -1,10 +1,10 @@
-class SessionsController < ApplicationController
+class EventsController < ApplicationController
   def new
-    @types = Session.session_types
+    @types = Event.session_types
   end
 
   def create
-    Session.create! params[:session].merge "branch_id" => params[:branch_id]
+    Event.create! params[:event].merge "branch_id" => params[:branch_id]
     render :text => "", :head => :ok
   end
 end

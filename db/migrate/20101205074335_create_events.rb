@@ -1,6 +1,6 @@
-class CreateSessions < ActiveRecord::Migration
+class CreateEvents < ActiveRecord::Migration
   def self.up
-    create_table :sessions do |t|
+    create_table :events do |t|
       t.string :type
       t.references :branch
       t.datetime :start
@@ -10,6 +10,6 @@ class CreateSessions < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :sessions
+    drop_table :events
   end
 end

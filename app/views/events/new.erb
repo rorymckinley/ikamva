@@ -20,12 +20,12 @@
     </script>
   </head>
   <body>
-    <form method="post" action="<%= branch_sessions_path(@branch) %>">
+    <form method="post" action="<%= branch_event_path(@branch) %>">
       <%= select(:session, :type, @types) %>
       <p/>
-      <input type='text' name="session[start]" id="start_date"/>
+      <input type='text' name="event[start]" id="start_date"/>
       <p/>
-      <input type='text' name="session[end]" id="end_date"/>
+      <input type='text' name="event[end]" id="end_date"/>
       <input type='submit' value='Save'/>
     </form>
   </body>

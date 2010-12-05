@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController do
+describe EventsController do
   before(:each) do
     Branch.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
@@ -14,13 +14,13 @@ describe SessionsController do
 
   it "should provide a collection of session types when creating a form for a new session" do
     get :new, :branch_id => @branch_1.id
-    assigns[:types].should eql Session.session_types
+    assigns[:types].should eql Event.session_types
   end
 
   it "should provide a way to create a new session" do
     post :create, :branch_id => @branch_1.id, :session => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "type"=> 'homework'}
     response.should be_success
-    puts Session.find(:first).inspect
-    Session.find(:first).branch.should == @branch_1
+    puts Event.find(:first).inspect
+    Event.find(:first).branch.should == @branch_1
   end
 end
