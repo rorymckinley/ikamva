@@ -1,4 +1,6 @@
 class Session < ActiveRecord::Base
+  belongs_to :branch
+
   def self.session_types
     [
       [ 'Branchcom Meeting', 'branchcom' ],

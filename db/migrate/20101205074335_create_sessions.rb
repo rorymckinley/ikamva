@@ -5,7 +5,6 @@ class CreateSessions < ActiveRecord::Migration
       t.references :branch
       t.datetime :start
       t.datetime :end
-      t.datetime :late_after
       t.timestamps
     end
   end

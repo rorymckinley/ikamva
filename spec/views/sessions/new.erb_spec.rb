@@ -22,30 +22,6 @@ describe "sessions/new.erb" do
         end
         select.should have_selector("option", :value => "type_2")
       end
-      form.should have_selector("select", :name => "session[date]") do |select|
-        select.should have_selector("option", :value => "2010-01-01") do |opt|
-          opt.should contain("2010-01-01")
-        end
-        select.should have_selector("option", :value => "2010-01-03")
-      end
-      form.should have_selector("select", :name => "session[time]") do |select|
-        select.should have_selector("option", :value => "08:00") do |opt|
-          opt.should contain("08:00")
-        end
-        select.should have_selector("option", :value => "10:00")
-      end
-      form.should have_selector("select", :name => "session[duration]") do |select|
-        select.should have_selector("option", :value => "30") do |opt|
-          opt.should contain("30 minutes")
-        end
-        select.should have_selector("option", :value => "240")
-      end
-      form.should have_selector("select", :name => "session[late_after]") do |select|
-        select.should have_selector("option", :value => "5") do |opt|
-          opt.should contain("5 minutes")
-        end
-        select.should have_selector("option", :value => "30")
-      end
       form.should have_selector("input", :type => 'submit', :value => 'Save')
     end
   end
