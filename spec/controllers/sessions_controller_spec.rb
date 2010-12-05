@@ -11,4 +11,9 @@ describe SessionsController do
     response.should be_success
     response.should render_template('sessions/new')
   end
+
+  it "provide a collection of session types" do
+    get :new, :branch_id => @branch_1.id
+    assigns[:types].should eql Session.session_types
+  end
 end

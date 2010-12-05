@@ -1,2 +1,19 @@
 <html>
+  <head>
+  </head>
+  <body>
+    <form method="post" action="<%= branch_sessions_path(@branch) %>">
+      <%= select(:session, :type, @types) %>
+      <p/>
+      <%= select(:session, :date, @dates) %>
+      <p/>
+      <%= select(:session, :time, @times) %>
+      <p/>
+      <%= select(:session, :duration, @durations) %>
+      <p/>
+      <%= select(:session, :late_after, @late_times) %>
+      <p/>
+      <input type='submit' value='Save'/>
+    </form>
+  </body>
 </html>
