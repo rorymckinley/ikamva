@@ -20,8 +20,8 @@
     </script>
   </head>
   <body>
-    <form method="post" action="<%= branch_event_path(@branch) %>">
-      <%= select(:session, :type, @types) %>
+    <form method="post" action="<%= branch_events_path(@branch) %>">
+      <%= select(:event, :type, @types) %>
       <p/>
       <input type='text' name="event[start]" id="start_date"/>
       <p/>

@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe "sessions/new.erb" do
+describe "events/new.erb" do
   before(:all) do
     Branch.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
   end
 
-  it "should contain a form that will create a new session for the selected branch" do
+  it "should contain a form that will create a new event for the selected branch" do
     assign(:branch, @branch_1)
     assign(:types, [[ 'Type 1', 'type_1' ], [ 'Type 2', 'type_2']])
     assign(:dates, [['2010-01-01'], ['2010-01-02'], ['2010-01-03']])
@@ -15,8 +15,8 @@ describe "sessions/new.erb" do
     assign(:late_times, [['5 minutes', 5], ['15 minutes', 15], ['30 minutes', 30]])
 
     render
-    rendered.should have_selector("form", :method => "post", :action => branch_sessions_path(@branch_1)) do |form|
-      form.should have_selector("select", :name => "session[type]") do |select|
+    rendered.should have_selector("form", :method => "post", :action => branch_events_path(@branch_1)) do |form|
+      form.should have_selector("select", :name => "event[type]") do |select|
         select.should have_selector("option", :value => "type_1") do |opt|
           opt.should contain('Type 1')
         end

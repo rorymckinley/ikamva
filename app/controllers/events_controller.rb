@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def new
-    @types = Event.session_types
+    @types = Event.event_types
   end
 
   def create
