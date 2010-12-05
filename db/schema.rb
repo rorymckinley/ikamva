@@ -10,10 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101128142142) do
+ActiveRecord::Schema.define(:version => 20101205074335) do
 
   create_table "branches", :force => true do |t|
     t.string "name"
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.string   "type"
+    t.integer  "branch_id"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "late_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
