@@ -14,13 +14,25 @@ describe EventsController do
 
   it "should provide a collection of event types when creating a form for a new session" do
     get :new, :branch_id => @branch_1.id
-    assigns[:types].should eql Event.event_types
+    assigns[:purposes].should eql Event.event_purposes
   end
 
   it "should provide a way to create a new event" do
-    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "type"=> 'homework'}
-    response.should be_success
-    puts Event.find(:first).inspect
-    Event.find(:first).branch.should == @branch_1
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "purpose"=> 'homework'}
+    event = Event.find(:first)
+    event.branch.should == @branch_1
+    event.purpose.should == 'homework'
+    event.start.strftime("%Y%m%d%H%M%S").should == "20101205120000"
+    event.end.strftime("%Y%m%d%H%M%S").should == "20101205140000"
+  end
+  
+  it "should redirect to the listing of the branch's events after creation" do
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "purpose"=> 'homework'}
+    response.should redirect_to branch_events_path(@branch_1)
+  end
+
+  it "should set a message indicating that the even thas been created" do
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "purpose"=> 'homework'}
+    flash[:event].should == "Event created"
   end
 end

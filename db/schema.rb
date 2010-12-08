@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(:version => 20101205074335) do
   end
 
   create_table "events", :force => true do |t|
-    t.string   "type"
+    t.string   "purpose"
     t.integer  "branch_id"
     t.datetime "start"
     t.datetime "end"

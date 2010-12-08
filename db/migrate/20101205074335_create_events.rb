@@ -1,7 +1,7 @@
 class CreateEvents < ActiveRecord::Migration
   def self.up
     create_table :events do |t|
-      t.string :type
+      t.string :purpose
       t.references :branch
       t.datetime :start
       t.datetime :end

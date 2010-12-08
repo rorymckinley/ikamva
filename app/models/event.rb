@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :branch
 
-  def self.event_types
+  def self.event_purposes
     [
       [ 'Branchcom Meeting', 'branchcom' ],
       [ 'Excursion', 'excursion' ],

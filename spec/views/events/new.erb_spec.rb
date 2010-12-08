@@ -8,7 +8,7 @@ describe "events/new.erb" do
 
   it "should contain a form that will create a new event for the selected branch" do
     assign(:branch, @branch_1)
-    assign(:types, [[ 'Type 1', 'type_1' ], [ 'Type 2', 'type_2']])
+    assign(:purposes, [[ 'Type 1', 'type_1' ], [ 'Type 2', 'type_2']])
     assign(:dates, [['2010-01-01'], ['2010-01-02'], ['2010-01-03']])
     assign(:times, [['08:00'], ['09:00'], ['10:00']])
     assign(:durations, [['30 minutes', 30], ['1 hour', 60], ['4 hours', 240]])
@@ -16,7 +16,7 @@ describe "events/new.erb" do
 
     render
     rendered.should have_selector("form", :method => "post", :action => branch_events_path(@branch_1)) do |form|
-      form.should have_selector("select", :name => "event[type]") do |select|
+      form.should have_selector("select", :name => "event[purpose]") do |select|
         select.should have_selector("option", :value => "type_1") do |opt|
           opt.should contain('Type 1')
         end
