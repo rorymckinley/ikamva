@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Event do
   it "should return a list of event purposes for selection" do
-    Event.event_purposes.should == [['Branchcom Meeting', 'branchcom'], ['Excursion', 'excursion'], ['Holiday Programme', 'holiday'], ['Homework', 'homework'], ['Tutorial', 'tutorial'], ['Volunteer Training', 'training'], ['Workshop', 'workshop']]
+    Event.event_purposes.should == [
+                                     { 'branchcom' => 'Branchcom Meeting' }, 
+                                     { 'excursion' => 'Excursion' }, 
+                                     { 'holiday' => 'Holiday Programme' }, 
+                                     { 'homework' => 'Homework' }, 
+                                     { 'tutorial' => 'Tutorial' }, 
+                                     { 'training' => 'Volunteer Training' }, 
+                                     { 'workshop' => 'Workshop' }
+                                   ]
   end
 end

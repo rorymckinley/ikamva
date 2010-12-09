@@ -8,4 +8,9 @@ class EventsController < ApplicationController
     flash[:event] = "Event created"
     redirect_to branch_events_path(Branch.find(params[:branch_id]))
   end
+
+  def index
+    @branch = Branch.find(params[:branch_id])
+    @events = @branch.events
+  end
 end

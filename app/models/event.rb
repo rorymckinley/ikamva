@@ -3,13 +3,13 @@ class Event < ActiveRecord::Base
 
   def self.event_purposes
     [
-      [ 'Branchcom Meeting', 'branchcom' ],
-      [ 'Excursion', 'excursion' ],
-      [ 'Holiday Programme', 'holiday' ],
-      [ 'Homework', 'homework' ],
-      [ 'Tutorial', 'tutorial' ],
-      [ 'Volunteer Training', 'training' ],
-      [ 'Workshop', 'workshop' ]
+      { 'branchcom' => 'Branchcom Meeting' },
+      { 'excursion' => 'Excursion' },
+      { 'holiday' => 'Holiday Programme' },
+      { 'homework' => 'Homework' },
+      { 'tutorial' => 'Tutorial' },
+      { 'training' => 'Volunteer Training' },
+      { 'workshop' => 'Workshop' }
     ]
   end
 end

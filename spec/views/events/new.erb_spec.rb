@@ -8,7 +8,7 @@ describe "events/new.erb" do
 
   it "should contain a form that will create a new event for the selected branch" do
     assign(:branch, @branch_1)
-    assign(:purposes, [[ 'Type 1', 'type_1' ], [ 'Type 2', 'type_2']])
+    assign(:purposes, [{ 'type_1' => 'Type 1' }, { 'type_2' => 'Type 2' }])
     assign(:dates, [['2010-01-01'], ['2010-01-02'], ['2010-01-03']])
     assign(:times, [['08:00'], ['09:00'], ['10:00']])
     assign(:durations, [['30 minutes', 30], ['1 hour', 60], ['4 hours', 240]])

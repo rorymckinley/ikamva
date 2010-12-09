@@ -22,7 +22,7 @@
   <body>
     <form method="post" action="<%= branch_events_path(@branch) %>">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-      <%= select(:event, :purpose, @purposes) %>
+      <%= select(:event, :purpose, @purposes.map { |purpose_set| [ purpose_set.values[0], purpose_set.keys[0] ]}) %>
       <p/>
       <input type='text' name="event[start]" id="start_date"/>
       <p/>

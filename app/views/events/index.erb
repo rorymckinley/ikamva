@@ -1,0 +1,11 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <a href="<%= new_branch_event_path(@branch) %>">Add Event</a>
+    <p/>
+    <% @events.each do |event| %>
+      <%= (Event.event_purposes.select { |purpose_set| purpose_set.has_key? event.purpose })[0][event.purpose] %>&nbsp;&nbsp;<%= event.start.strftime("%Y - %m - %d %H:%M:%S") %>&nbsp;&nbsp;<%= event.end.strftime("%Y - %m - %d %H:%M:%S") %><br/>
+    <% end %>
+  </body>
+</html>

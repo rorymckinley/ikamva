@@ -3,6 +3,7 @@ require 'spec_helper'
 describe EventsController do
   before(:each) do
     Branch.delete_all
+    Event.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
   end
 
@@ -34,5 +35,15 @@ describe EventsController do
   it "should set a message indicating that the even thas been created" do
     post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "purpose"=> 'homework'}
     flash[:event].should == "Event created"
+  end
+
+  it "should list the events for a particular branch" do
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "purpose"=> 'tutorial'}
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 16:00", "end" => "12/05/2010 18:00", "purpose"=> 'tutorial'}
+    get :index, :branch_id => @branch_1.id
+    response.should render_template 'events/index' 
+    @branch_1.reload
+    assigns[:events].should == [@branch_1.events.first, @branch_1.events.last]
+    assigns[:branch].should == @branch_1
   end
 end
