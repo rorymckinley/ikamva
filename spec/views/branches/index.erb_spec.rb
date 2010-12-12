@@ -33,6 +33,13 @@ describe "branches/index.erb" do
     render
     rendered.should have_selector("a", :href => new_branch_event_path(@branch_1))
   end
+  it "should provide each branch wit a link to create a new participant" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    render
+    rendered.should have_selector("a", :href => new_branch_participant_path(@branch_1)) do |link|
+      link.should contain("New Participant")
+    end
+  end
 end
 
 

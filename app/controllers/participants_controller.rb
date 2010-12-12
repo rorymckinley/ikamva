@@ -9,4 +9,9 @@ class ParticipantsController < ApplicationController
     flash[:participant] = 'Participant created'
     redirect_to branch_participants_path(:branch_id => params[:branch_id])
   end
+
+  def index
+    @participation_types = Participant.participation_types
+    @participants = Branch.find(params[:branch_id]).participants
+  end
 end

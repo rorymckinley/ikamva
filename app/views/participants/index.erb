@@ -1,0 +1,9 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <% @participants.each do |participant| %>
+      <%= participant.name %>&nbsp;&nbsp;<%= participant.card_number %>&nbsp;&nbsp;<%= (@participation_types.inject({}) { |hash,element| hash.merge! element })[participant.participation] %>
+    <% end %>
+  </body>
+</html>

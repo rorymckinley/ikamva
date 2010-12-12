@@ -9,7 +9,7 @@ describe "participants/new.erb" do
     assign(:branch, @branch_1)
     assign(:participation_types, [{"learner" => 'Learner'}, {"volunteer" => 'Volunteer'}])
     render
-    rendered.should have_selector("form", :method => "post", :action => new_branch_participant_path(@branch_1)) do |form|
+    rendered.should have_selector("form", :method => "post", :action => branch_participants_path(@branch_1)) do |form|
       form.should have_selector("input", :type => "text", :name => "participant[name]")
       form.should have_selector("input", :type => "text", :name => "participant[card_number]" )
       form.should have_selector("select", :name => "participant[participation]") do |select|

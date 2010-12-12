@@ -31,4 +31,12 @@ describe ParticipantsController do
     post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
     flash[:participant].should == 'Participant created'
   end
+
+  it "should list all participants for a branch" do
+    post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
+    get :index, :branch_id => @branch_1.id
+    assigns[:participants].should == @branch_1.reload.participants
+    assigns[:participation_types].should eql Participant.participation_types
+    response.should render_template("participants/index")
+  end
 end

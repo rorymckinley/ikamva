@@ -2,7 +2,7 @@
   <head>
   </head>
   <body>
-    <form method="post" action="<%= new_branch_participant_path(@branch) %>">
+    <form method="post" action="<%= branch_participants_path(@branch) %>">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
       <input type="text" name="participant[name]" /><p/>
       <input type="text" name="participant[card_number]"/><p/>
