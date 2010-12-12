@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101205074335) do
+ActiveRecord::Schema.define(:version => 20101211154304) do
 
   create_table "branches", :force => true do |t|
     t.string "name"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(:version => 20101205074335) do
     t.integer  "branch_id"
     t.datetime "start"
     t.datetime "end"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "participants", :force => true do |t|
+    t.string   "name"
+    t.string   "card_number"
+    t.string   "participation"
+    t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

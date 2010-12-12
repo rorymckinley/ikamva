@@ -1,6 +1,6 @@
 Ikamva::Application.routes.draw do
   resources :branches do
-    resources :events
+    resources :events, :participants
   end
   # The priority is based upon order of creation:
   # first created -> highest priority.
