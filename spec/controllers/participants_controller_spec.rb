@@ -39,4 +39,10 @@ describe ParticipantsController do
     assigns[:participation_types].should eql Participant.participation_types
     response.should render_template("participants/index")
   end
+
+  it "should provide a form to edit a participant" do
+    post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
+    get :edit, :branch_id => @branch_1.id, :id => @branch_1.reload.participants.first.id
+    response.should render_template("participants/edit")
+  end
 end

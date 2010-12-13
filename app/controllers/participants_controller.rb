@@ -14,4 +14,7 @@ class ParticipantsController < ApplicationController
     @participation_types = Participant.participation_types
     @participants = Branch.find(params[:branch_id]).participants
   end
+
+  def edit
+  end
 end

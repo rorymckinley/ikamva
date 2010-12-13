@@ -1,0 +1,13 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <form method="post" action="<%= branch_participant_path(@branch, @participant) %>">
+      <input type="hidden" name="_method" value="put"/>
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+      <input type="text" name="participant[name]" value="<%= @participant.name %>"/><p/>
+      <input type="text" name="participant[card_number]" value="<%= @participant.card_number %>"/><p/>
+      <%= select(:participant, :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse }) %><p/>
+    </form>
+  </body>
+</html>
