@@ -37,12 +37,41 @@ describe ParticipantsController do
     get :index, :branch_id => @branch_1.id
     assigns[:participants].should == @branch_1.reload.participants
     assigns[:participation_types].should eql Participant.participation_types
+    assigns[:branch].should == @branch_1
     response.should render_template("participants/index")
   end
 
   it "should provide a form to edit a participant" do
     post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
-    get :edit, :branch_id => @branch_1.id, :id => @branch_1.reload.participants.first.id
+    @branch_1.reload
+    get :edit, :branch_id => @branch_1.id, :id => @branch_1.participants.first.id
+    assigns[:branch].should == @branch_1
+    assigns[:participant].should == @branch_1.participants.first
+    assigns[:participation_types].should eql Participant.participation_types
     response.should render_template("participants/edit")
+  end
+
+  it "should allow a participant to be edited" do
+    post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
+    @branch_1.reload
+    put :update, :branch_id => @branch_1.id, :id => @branch_1.participants.first.id, :participant => { :name => 'Edited Participant', :card_number => '1236', :participation => 'learner' }
+    @branch_1.participants.first.reload
+    @branch_1.participants.first.name.should == 'Edited Participant'
+    @branch_1.participants.first.card_number.should == '1236'
+    @branch_1.participants.first.participation.should == 'learner'
+  end
+
+  it "should redirect to the branch's particpant list after updating a participant" do
+    post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
+    @branch_1.reload
+    put :update, :branch_id => @branch_1.id, :id => @branch_1.participants.first.id, :participant => { :name => 'Edited Participant', :card_number => '1236', :participation => 'learner' }
+    response.should redirect_to branch_participants_path(@branch_1)
+  end
+
+  it "should provide a message to indicate that the participant was updated" do
+    post :create, :branch_id => @branch_1.id, :participant => { :name => 'Test Participant', :card_number => '1235', :participation => 'volunteer'}
+    @branch_1.reload
+    put :update, :branch_id => @branch_1.id, :id => @branch_1.participants.first.id, :participant => { :name => 'Edited Participant', :card_number => '1236', :participation => 'learner' }
+    flash[:participant].should == "Participant Updated"
   end
 end

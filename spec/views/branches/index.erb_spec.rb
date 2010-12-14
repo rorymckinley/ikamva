@@ -40,6 +40,14 @@ describe "branches/index.erb" do
       link.should contain("New Participant")
     end
   end
+
+  it "should provide a link to list the branch's participants" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    render
+    rendered.should have_selector("a", :href => branch_participants_path(@branch_1)) do |link|
+      link.should contain("Participants")
+    end
+  end
 end
 
 

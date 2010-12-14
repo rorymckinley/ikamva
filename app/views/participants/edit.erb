@@ -8,6 +8,7 @@
       <input type="text" name="participant[name]" value="<%= @participant.name %>"/><p/>
       <input type="text" name="participant[card_number]" value="<%= @participant.card_number %>"/><p/>
       <%= select(:participant, :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse }) %><p/>
+      <input type="submit" value="Save"/>
     </form>
   </body>
 </html>

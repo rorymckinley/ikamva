@@ -22,6 +22,7 @@ describe "participants/edit.erb" do
         select.should have_selector("option", :value => @participant_first.participation, :selected => 'selected')
         select.should have_selector("option", :value => 'volunteer')
       end
+      form.should have_selector("input", :type => "submit", :value => "Save")
     end
   end
 end
