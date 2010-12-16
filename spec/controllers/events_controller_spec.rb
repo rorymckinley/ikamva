@@ -46,4 +46,14 @@ describe EventsController do
     assigns[:events].should == [@branch_1.events.first, @branch_1.events.last]
     assigns[:branch].should == @branch_1
   end
+
+  it "should provide a form for editing an event" do
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "12/05/2010 12:00", "end" => "12/05/2010 14:00", "purpose"=> 'tutorial'}
+    @branch_1.reload
+    get :edit, :branch_id => @branch_1.id, :id => @branch_1.events.first.id
+    assigns[:purposes].should == Event.event_purposes
+    assigns[:branch].should == @branch_1
+    assigns[:event].should == @branch_1.events.first
+    response.should render_template 'events/edit'
+  end
 end

@@ -13,4 +13,10 @@ class EventsController < ApplicationController
     @branch = Branch.find(params[:branch_id])
     @events = @branch.events
   end
+
+  def edit
+    @purposes = Event.event_purposes
+    @branch = Branch.find(params[:branch_id])
+    @event = Event.find(params[:id])
+  end
 end
