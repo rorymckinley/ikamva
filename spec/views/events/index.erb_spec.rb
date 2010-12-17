@@ -23,5 +23,14 @@ describe "events/index.erb" do
     render
     rendered.should have_selector("a", :href=> new_branch_event_path(@branch))
   end
+
+  it "should provide a link to edit an existing event" do
+    assign(:events, [@event_1, @event_2])
+    assign(:branch, @branch)
+    render
+    rendered.should have_selector("a", :href => edit_branch_event_path(@branch, @event_1)) do |edit_link|
+      edit_link.should contain("Edit Event")
+    end
+  end
 end
 

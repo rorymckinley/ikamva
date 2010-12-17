@@ -15,7 +15,10 @@
     <script type="text/javascript">
       $(function() {
           $('#start_date').datetimepicker();
+          $('#start_date').datetimepicker("setDate", new Date(<%= @event.start.to_i * 1000 %>));
+          $('#start_date').datetimepicker({ dateFormat: 'yyyy-mm-dd' })
           $('#end_date').datetimepicker();
+          $('#end_date').datetimepicker("setDate", new Date(<%= @event.end.to_i * 1000 %>));
           });
     </script>
   </head>

@@ -14,8 +14,8 @@
     <%= javascript_include_tag "jquery-ui-timepicker-addon" %>
     <script type="text/javascript">
       $(function() {
-          $('#start_date').datetimepicker();
-          $('#end_date').datetimepicker();
+          $('#start_date').datetimepicker({ dateFormat: 'yy-mm-dd' });
+          $('#end_date').datetimepicker({ dateFormat: 'yy-mm-dd' });
           });
     </script>
   </head>
