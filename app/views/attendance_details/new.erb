@@ -1,2 +1,15 @@
 <html>
+  <head>
+  </head>
+  <body>
+    <form method="post" action="<%= new_branch_event_attendance_detail_path(@branch, @event) %>">
+      <input type="text" name="client[card_number]"/><p/>
+      <select name="attendance_detail[status]">
+        <option value=''>Calculate Attendance Status</option>
+        <option value='partial'>Partial</option>
+        <option value='full'>Full</option>
+      </select><p/>
+      <input type='submit' value='Save'/>'
+    </form>
+  </body>
 </html>

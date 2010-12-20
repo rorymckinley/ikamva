@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(:version => 20101218102625) do
 
   create_table "attendance_details", :force => true do |t|
-    t.integer  "branch_id"
     t.integer  "event_id"
+    t.integer  "participant_id"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
