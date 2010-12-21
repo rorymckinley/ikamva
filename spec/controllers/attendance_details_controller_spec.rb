@@ -24,7 +24,13 @@ describe AttendanceDetailsController do
     post :create, :branch_id => @branch_1.id, :event_id => @event.id, :participant => { "card_number" => '1234'}, :attendance_detail => { 'status' => 'full' }
     response.should be_successful
 
-    AttendanceDetail.find(:first, :conditions => { :participant_id => @participant.id, :status => 'full'})
+    AttendanceDetail.find(:first, :conditions => { :participant_id => @participant.id, :status => 'full'}).should_not be_nil
     @event.reload.participants.should include @participant
+  end
+
+  it "should calculate the attendance detail status if none is provided" do
+    event2 = @branch_1.events.create! :purpose => 'homework', :start => Time.now + 1.minute, :end => Time.now + 1.hour
+    post :create, :branch_id => @branch_1.id, :event_id => event2.id, :participant => { "card_number" => '1234'}, :attendance_detail => { 'status' => '' }
+    AttendanceDetail.find(:first, :conditions => { :status => 'full' }).should_not be_nil
   end
 end
