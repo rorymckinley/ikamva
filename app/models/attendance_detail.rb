@@ -1,10 +1,13 @@
 class AttendanceDetail < ActiveRecord::Base
   belongs_to :participant
+  belongs_to :event
 
-  before_save :calculate_status
+  before_create :calculate_status
 
   private
   def calculate_status
-    self.status = 'full'
+    return unless status.blank?
+
+    self.status = Time.now > event.late_after ? 'partial' : 'full'
   end
 end

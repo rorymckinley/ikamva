@@ -14,4 +14,8 @@ class Event < ActiveRecord::Base
       { 'workshop' => 'Workshop' }
     ]
   end
+
+  def late_after
+    start + 15.minutes
+  end
 end
