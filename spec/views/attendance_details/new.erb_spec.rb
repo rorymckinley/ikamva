@@ -25,4 +25,15 @@ describe "attendance_details/new" do
       form.should have_selector("input", :type => "submit", :value => "Save")
     end
   end
+  it "should display a status message if provided" do
+    flash[:attendance_detail] = 'Test Message'
+    render
+    rendered.should contain 'Test Message'
+  end
+
+  it "should display an error message if provided" do
+    flash[:error] = 'Test Error'
+    render
+    rendered.should contain 'Test Error'
+  end
 end

@@ -2,6 +2,8 @@
   <head>
   </head>
   <body>
+    <div><%= flash[:attendance_detail] %></div>
+    <div><%= flash[:error] %></div>
     <form method="post" action="<%= new_branch_event_attendance_detail_path(@branch, @event) %>">
       <input type="text" name="client[card_number]"/><p/>
       <select name="attendance_detail[status]">
