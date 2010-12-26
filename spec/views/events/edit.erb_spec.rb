@@ -27,4 +27,5 @@ describe "events/edit.erb" do
       form.should have_selector("input", :type => "submit", :value => "Save")
     end
   end
+
 end

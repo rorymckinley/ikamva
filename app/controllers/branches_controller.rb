@@ -11,7 +11,7 @@ class BranchesController < ApplicationController
   end
 
   def create
-    Branch.create! :name => params[:name]
+    Branch.create! params[:branch]
     flash[:branch] = 'Branch Created'
     redirect_to(:action => 'index')
   end

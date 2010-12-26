@@ -1,0 +1,5 @@
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+      Name: <input type="text" name="branch[name]" value="<%= @branch.name if @branch %>"/>
+      <p/>
+      <input type="submit" value="Save"/>
+

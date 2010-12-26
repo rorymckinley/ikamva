@@ -1,0 +1,6 @@
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+      Name: <input type="text" name="participant[name]" value="<%= @participant.name if @participant %>"/><p/>
+      Card Number: <input type="text" name="participant[card_number]" value="<%= @participant.card_number if @participant %>"/><p/>
+      Type: <%= select(:participant, :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse }) %><p/>
+      <input type="submit" value="Save"/>
+

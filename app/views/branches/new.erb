@@ -1,12 +1,4 @@
-<html>
-  <head>
-  </head>
-  <body>
+    <h1>New Branch</h1>
     <form method="post" action="<%= branches_path %>" >
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-      Name: <input type="text" name="name"/>
-      <p/>
-      <input type="submit"/>
+      <%= render "form" %>
     </form>
-  </body>
-</html>

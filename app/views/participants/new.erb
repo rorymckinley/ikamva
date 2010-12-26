@@ -1,13 +1,5 @@
-<html>
-  <head>
-  </head>
-  <body>
     <form method="post" action="<%= branch_participants_path(@branch) %>">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-      <input type="text" name="participant[name]" /><p/>
-      <input type="text" name="participant[card_number]"/><p/>
-      <%= select(:participant, :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse }) %><p/>
-      <input type="submit" value="Save"/>
+      <%= render "form" %>
     </form>
-  </body>
-</html>
+    <p/>
+    <a href="<%= branch_participants_path(@branch) %>">Return To Participant List</a>

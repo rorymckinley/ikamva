@@ -1,14 +1,16 @@
-<html>
-  <head>
-  </head>
-  <body>
-    <div><%= flash[:branch] %></div>
-    <p/>
-  <% @branches.each do |branch| %>
-    <%= branch.name %>&nbsp;&nbsp;<a href="<%= edit_branch_path(branch) %>">Edit</a><br/>
-    &nbsp;&nbsp;<a href="<%= branch_participants_path(branch) %>">Participants</a>&nbsp;&nbsp;<a href="<%= new_branch_event_path(branch) %>">New Event</a>&nbsp;&nbsp;<a href="<%= new_branch_participant_path(branch) %>">New Participant</a>
+<div class="status"><%= flash[:branch] %></div>
+<p/>
+<h1>Branches</h1>
+<table>
+<% @branches.each do |branch| %>
+  <tr>
+    <td><%= branch.name %></td>
+    <td><a href="<%= edit_branch_path(branch) %>">Edit Branch</a></td>
+    <td><a href="<%= branch_participants_path(branch) %>">List Participants</a></td>
+    <td><a href="<%= new_branch_participant_path(branch) %>">New Participant</a></td>
+    <td><a href="<%= new_branch_event_path(branch) %>">New Event</a></td>
+  </tr>
   <% end %>
+</table>
   <p/>
   <a href="<%= new_branch_path %>">New Branch</a>
-  </body>
-</html>

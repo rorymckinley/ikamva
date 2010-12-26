@@ -1,9 +1,15 @@
-<html>
-  <head>
-  </head>
-  <body>
-    <% @participants.each do |participant| %>
-      <%= participant.name %>&nbsp;&nbsp;<%= participant.card_number %>&nbsp;&nbsp;<%= (@participation_types.inject({}) { |hash,element| hash.merge! element })[participant.participation] %>&nbsp;&nbsp;<a href="<%= edit_branch_participant_path(@branch, participant) %>">Edit Participant</a><br/>
-    <% end %>
-  </body>
-</html>
+<h1>Participants for <%= @branch.name %></h1>
+<table>
+  <% @participants.each do |participant| %>
+    <tr>
+      <td><%= participant.name %></td>
+      <td><%= participant.card_number %></td>
+      <td><%= (@participation_types.inject({}) { |hash,element| hash.merge! element })[participant.participation] %></td>
+      <td><a href="<%= edit_branch_participant_path(@branch, participant) %>">Edit Participant</a></td>
+    </tr>
+  <% end %>
+</table>
+<p/>
+<a href="<%= new_branch_participant_path(@branch) %>">Create Participant</a>
+<p/>
+<a href="<%= branches_path %>">Return to Branches</a>

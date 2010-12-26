@@ -21,4 +21,12 @@ describe "participants/new.erb" do
       form.should have_selector("input", :type => 'submit', :value => 'Save')
     end
   end
+  it "should provide a link to return to the participants listing page" do
+    assign(:branch, @branch_1)
+    assign(:participation_types, [{"learner" => 'Learner'}, {"volunteer" => 'Volunteer'}])
+    render
+    rendered.should have_selector("a", :href => branch_participants_path(@branch_1)) do |return_to_list|
+      return_to_list.should contain("Return To Participant List")
+    end
+  end
 end

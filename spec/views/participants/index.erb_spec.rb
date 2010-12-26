@@ -28,4 +28,24 @@ describe "participants/index.erb" do
       edit_link.should contain("Edit Participant")
     end
   end
+
+  it "should provide a link to create a new participant" do
+    assign(:participants, [ @participant_first, @participant_second ])
+    assign(:participation_types, [ {'learner' => 'Learner'}, {'volunteer' => 'Volunteer'} ])
+    assign(:branch, @branch_1)
+    render
+    rendered.should have_selector("a", :href => new_branch_participant_path(@branch_1)) do |new_link|
+      new_link.should contain("Create Participant")
+    end
+  end
+
+  it "should provide a link to return to the branch listing" do
+    assign(:participants, [ @participant_first, @participant_second ])
+    assign(:participation_types, [ {'learner' => 'Learner'}, {'volunteer' => 'Volunteer'} ])
+    assign(:branch, @branch_1)
+    render
+    rendered.should have_selector("a", :href => branches_path) do |branches_link|
+      branches_link.should contain("Return to Branches")
+    end
+  end
 end

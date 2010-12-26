@@ -3,10 +3,8 @@
   </head>
   <body>
     <form method="post" action="<%= branch_path(@branch) %>">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
       <input type='hidden' value='put' name='_method'/>
-      <input type='text' value='<%= @branch.name %>' name='branch[name]'/>
-      <input type='submit' value='Save'/>
+      <%= render "form" %>
     </form>
   </body>
 </html>
