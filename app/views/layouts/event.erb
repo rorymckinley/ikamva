@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ikamva</title>
+  <%= stylesheet_link_tag :all %>
+  <%= csrf_meta_tag %>
+  <%= stylesheet_link_tag "ui-lightness/jquery-ui-1.8.6.custom" %>
+  <style type="text/css">
+    /* css for timepicker */
+    .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+    .ui-timepicker-div dl{ text-align: left; }
+    .ui-timepicker-div dl dt{ height: 25px; }
+    .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+    .ui-timepicker-div td { font-size: 90%; }
+  </style>
+  <%= javascript_include_tag "jquery-1.4.4.min" %>
+  <%= javascript_include_tag "jquery-ui-1.8.6.custom.min" %>
+  <%= javascript_include_tag "jquery-ui-timepicker-addon" %>
+  <script type="text/javascript">
+    $(function() {
+        $('#start_date').datetimepicker({ dateFormat: 'yy-mm-dd' });
+        $('#end_date').datetimepicker({ dateFormat: 'yy-mm-dd' });
+        <% if @event %>
+          $('#start_date').datetimepicker("setDate", new Date(<%= @event.start.to_i * 1000 %>));
+          $('#end_date').datetimepicker("setDate", new Date(<%= @event.end.to_i * 1000 %>));
+        <% end %>
+        });
+  </script>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
+

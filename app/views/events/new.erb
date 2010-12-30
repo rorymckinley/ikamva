@@ -1,33 +1,3 @@
-<html>
-  <head>
-    <%= stylesheet_link_tag "ui-lightness/jquery-ui-1.8.6.custom" %>
-    <style type="text/css">
-      /* css for timepicker */
-      .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
-      .ui-timepicker-div dl{ text-align: left; }
-      .ui-timepicker-div dl dt{ height: 25px; }
-      .ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
-      .ui-timepicker-div td { font-size: 90%; }
-    </style>
-    <%= javascript_include_tag "jquery-1.4.4.min" %>
-    <%= javascript_include_tag "jquery-ui-1.8.6.custom.min" %>
-    <%= javascript_include_tag "jquery-ui-timepicker-addon" %>
-    <script type="text/javascript">
-      $(function() {
-          $('#start_date').datetimepicker({ dateFormat: 'yy-mm-dd' });
-          $('#end_date').datetimepicker({ dateFormat: 'yy-mm-dd' });
-          });
-    </script>
-  </head>
-  <body>
     <form method="post" action="<%= branch_events_path(@branch) %>">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-      <%= select(:event, :purpose, @purposes.map { |purpose_set| [ purpose_set.values[0], purpose_set.keys[0] ]}) %>
-      <p/>
-      <input type='text' name="event[start]" id="start_date"/>
-      <p/>
-      <input type='text' name="event[end]" id="end_date"/>
-      <input type='submit' value='Save'/>
+      <%= render "form" %>
     </form>
-  </body>
-</html>

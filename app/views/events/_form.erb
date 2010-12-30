@@ -1,0 +1,8 @@
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+      Purpose: <%= select(:event, :purpose, @purposes.map { |purpose_set| [ purpose_set.values[0], purpose_set.keys[0] ]}) %>
+      <p/>
+      Start: <input type='text' name="event[start]" id="start_date"/>
+      <p/>
+      End: <input type='text' name="event[end]" id="end_date"/>
+      <input type='submit' value='Save'/>
+

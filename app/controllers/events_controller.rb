@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   def new
     @purposes = Event.event_purposes
+    render :layout => 'event'
   end
 
   def create
@@ -21,6 +22,7 @@ class EventsController < ApplicationController
     @purposes = Event.event_purposes
     @branch = Branch.find(params[:branch_id])
     @event = Event.find(params[:id])
+    render :layout => 'event'
   end
 
   def update

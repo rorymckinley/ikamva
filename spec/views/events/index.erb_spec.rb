@@ -32,5 +32,23 @@ describe "events/index.erb" do
       edit_link.should contain("Edit Event")
     end
   end
+
+  it "should provide a link to add attendance detail for an event" do
+    assign(:events, [@event_1, @event_2])
+    assign(:branch, @branch)
+    render
+    rendered.should have_selector("a", :href => new_branch_event_attendance_detail_path(@branch, @event_1)) do |attendance_link|
+      attendance_link.should contain("Add Attendance Detail")
+    end
+  end
+
+  it "should provide a link to the listing of an event's attendance details" do
+    assign(:events, [@event_1, @event_2])
+    assign(:branch, @branch)
+    render
+    rendered.should have_selector("a", :href => branch_event_attendance_details_path(@branch, @event_1)) do |attendance_list_link|
+      attendance_list_link.should contain "Attendance Details"
+    end
+  end
 end
 

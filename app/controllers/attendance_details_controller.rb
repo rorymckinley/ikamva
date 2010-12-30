@@ -19,4 +19,9 @@ class AttendanceDetailsController < ApplicationController
     flash[:attendance_detail] = "#{participant.name} has #{attendance_detail.status} credit"
     redirect_to new_branch_event_attendance_detail_path(branch, event)
   end
+
+  def index
+    @branch = Branch.find(params[:branch_id])
+    @event = Event.find(params[:event_id])
+  end
 end

@@ -48,4 +48,11 @@ describe AttendanceDetailsController do
     post :create, :branch_id => @branch_1.id, :event_id => @event.id, :participant => { "card_number" => '0000'}, :attendance_detail => { 'status' => 'full' }
     flash[:error].should == "No participant with card number 0000"
   end
+
+  it "should list all attendance details for an event" do
+    get :index, :branch_id => @branch_1.id, :event_id => @event.id
+    assigns[:branch].should == @branch_1
+    assigns[:event].should == @event
+    response.should render_template "attendance_details/index"
+  end
 end

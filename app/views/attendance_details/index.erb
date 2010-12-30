@@ -1,0 +1,8 @@
+<table>
+<% @event.attendance_details.each do |detail| %>
+  <tr>
+    <td><%= detail.participant.name %></td>
+    <td><%= detail.status.capitalize %></td>
+  </tr>
+<% end %>
+</table>

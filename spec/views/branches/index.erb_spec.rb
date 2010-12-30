@@ -28,24 +28,20 @@ describe "branches/index.erb" do
     render
     rendered.should have_selector("a", :href => edit_branch_path(@branch_1))
   end
-  it "should provide each branch with a link to create a new event" do
-    assign(:branches, [ @branch_1, @branch_2 ])
-    render
-    rendered.should have_selector("a", :href => new_branch_event_path(@branch_1))
-  end
-  it "should provide each branch wit a link to create a new participant" do
-    assign(:branches, [ @branch_1, @branch_2 ])
-    render
-    rendered.should have_selector("a", :href => new_branch_participant_path(@branch_1)) do |link|
-      link.should contain("New Participant")
-    end
-  end
 
   it "should provide a link to list the branch's participants" do
     assign(:branches, [ @branch_1, @branch_2 ])
     render
     rendered.should have_selector("a", :href => branch_participants_path(@branch_1)) do |link|
       link.should contain("Participants")
+    end
+  end
+
+  it "should provide a link to list the branch's events" do
+    assign(:branches, [ @branch_1, @branch_2 ])
+    render
+    rendered.should have_selector("a", :href => branch_events_path(@branch_1)) do |link|
+      link.should contain("Events")
     end
   end
 end

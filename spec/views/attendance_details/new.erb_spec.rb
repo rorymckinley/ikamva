@@ -11,8 +11,9 @@ describe "attendance_details/new" do
     assign(:branch, @branch)
     assign(:event, @event)
     render
-    rendered.should have_selector("form", :action => new_branch_event_attendance_detail_path(@branch, @event), :method => "post") do |form|
-      form.should have_selector("input", :type => "text", :name => "client[card_number]")
+    rendered.should have_selector("form", :action => branch_event_attendance_details_path(@branch, @event), :method => "post") do |form|
+      form.should have_selector("input", :type => "hidden", :name => "authenticity_token")
+      form.should have_selector("input", :type => "text", :name => "participant[card_number]")
       form.should have_selector("select", :name => "attendance_detail[status]") do |select|
         select.should have_selector('option', :value => '') do |default_option|
           default_option.should contain('Calculate Attendance Status')
