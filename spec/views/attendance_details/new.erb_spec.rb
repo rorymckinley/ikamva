@@ -7,6 +7,7 @@ describe "attendance_details/new" do
     @branch = Branch.create! :name => 'Test Branch'
     @event = @branch.events.create! :purpose => 'tutorial', :start => Time.now, :end => Time.now + 2.hours
   end
+
   it "should cpature details of the card number and the attendance status" do
     assign(:branch, @branch)
     assign(:event, @event)
@@ -26,6 +27,7 @@ describe "attendance_details/new" do
       form.should have_selector("input", :type => "submit", :value => "Save")
     end
   end
+
   it "should display a status message if provided" do
     flash[:attendance_detail] = 'Test Message'
     render
@@ -36,5 +38,14 @@ describe "attendance_details/new" do
     flash[:error] = 'Test Error'
     render
     rendered.should contain 'Test Error'
+  end
+
+  it "should provide a link to return to the events listing" do
+    assign(:branch, @branch)
+    assign(:event, @event)
+    render
+    rendered.should have_selector("a", :href => branch_events_path(@branch)) do |events_link|
+      events_link.should contain("Return to Events")
+    end
   end
 end

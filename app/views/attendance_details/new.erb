@@ -1,5 +1,6 @@
     <div class="status"><%= flash[:attendance_detail] %></div>
     <div class="error"><%= flash[:error] %></div>
+    <h1>Create Attendance Detail</h1>
     <form method="post" action="<%= branch_event_attendance_details_path(@branch, @event) %>">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
       Card Number: <input type="text" name="participant[card_number]"/><p/>
@@ -10,3 +11,5 @@
       </select><p/>
       <input type='submit' value='Save'/>
     </form>
+    <p/>
+    <a href="<%= branch_events_path(@branch) %>">Return to Events</a>

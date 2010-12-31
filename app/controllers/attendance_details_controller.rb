@@ -24,4 +24,16 @@ class AttendanceDetailsController < ApplicationController
     @branch = Branch.find(params[:branch_id])
     @event = Event.find(params[:event_id])
   end
+
+  def edit
+    @branch = Branch.find(params[:branch_id])
+    @event = Event.find(params[:event_id])
+    @attendance_detail = AttendanceDetail.find(params[:id])
+  end
+
+  def update
+    AttendanceDetail.find(params[:id]).update_attributes! params[:attendance_detail]
+    flash[:attendance_detail] = "Attendance Detail updated"
+    redirect_to branch_event_attendance_details_path(Branch.find(params[:branch_id]), Event.find(params[:event_id]))
+  end
 end

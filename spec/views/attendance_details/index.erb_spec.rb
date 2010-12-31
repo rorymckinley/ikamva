@@ -24,4 +24,21 @@ describe "attendance_details/index" do
     rendered.should contain 'Part Two'
     rendered.should contain 'Partial'
   end
+
+  it "should provide a link to edit an attendance detail record" do
+    assign(:branch, @branch_1)
+    assign(:event, @event)
+    render
+    render.should have_selector("a", :href => edit_branch_event_attendance_detail_path(@branch_1, @event, @detail_1)) do |edit_link|
+      edit_link.should contain("Edit Attendance Detail")
+    end
+  end
+
+  it "should display success messages for updates" do
+    assign(:branch, @branch_1)
+    assign(:event, @event)
+    flash[:attendance_detail] = 'Test Flash'
+    render
+    render.should contain("Test Flash")
+  end
 end

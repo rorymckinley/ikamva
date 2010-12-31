@@ -55,4 +55,32 @@ describe AttendanceDetailsController do
     assigns[:event].should == @event
     response.should render_template "attendance_details/index"
   end
+
+  it "should provide functionality to edit an attendance detail record" do
+    attendance_detail = @event.attendance_details.create! :status => 'full', :participant => @participant
+    get :edit, :branch_id => @branch_1.id, :event_id => @event.id, :id => attendance_detail.id
+    assigns[:branch].should == @branch_1
+    assigns[:event].should == @event
+    assigns[:attendance_detail].should == attendance_detail
+    response.should be_success
+    response.should render_template "attendance_details/edit"
+  end
+
+  it "should allow an attendance detail record to be updated" do
+    attendance_detail = @event.attendance_details.create! :status => 'full', :participant => @participant
+    put :update, :branch_id => @branch_1.id, :event_id => @event.id, :id => attendance_detail.id, :attendance_detail => { "status" => 'partial' }
+    attendance_detail.reload.status.should == 'partial'
+  end
+
+  it "should redirect to the listing of attendance details after update" do
+    attendance_detail = @event.attendance_details.create! :status => 'full', :participant => @participant
+    put :update, :branch_id => @branch_1.id, :event_id => @event.id, :id => attendance_detail.id, :attendance_detail => { "status" => 'partial' }
+    response.should redirect_to branch_event_attendance_details_path(@branch_1, @event)
+  end
+
+  it "should set a message indicating that the attendace detail record was updated successfully" do
+    attendance_detail = @event.attendance_details.create! :status => 'full', :participant => @participant
+    put :update, :branch_id => @branch_1.id, :event_id => @event.id, :id => attendance_detail.id, :attendance_detail => { "status" => 'partial' }
+    flash[:attendance_detail].should == "Attendance Detail updated"
+  end
 end

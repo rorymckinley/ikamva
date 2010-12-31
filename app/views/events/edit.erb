@@ -1,4 +1,7 @@
+<h1>Edit Event</h1>
     <form action="<%= branch_event_path(@branch, @event) %>" method="post">
       <input type="hidden" name="_method" value="put"/>
       <%= render "form" %>
     </form>
+    <p/>
+    <a href="<%= branch_events_path(@branch) %>">Return to Events</a>

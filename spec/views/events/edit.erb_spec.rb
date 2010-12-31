@@ -28,4 +28,13 @@ describe "events/edit.erb" do
     end
   end
 
+  it "should provide a link to return to the events page" do
+    assign(:branch, @branch_1)
+    assign(:purposes, [{ 'type_1' => 'Type 1' }, { 'type_2' => 'Type 2' }])
+
+    render
+    rendered.should have_selector("a", :href => branch_events_path(@branch_1)) do |events_link|
+      events_link.should contain("Return to Events")
+    end
+  end
 end

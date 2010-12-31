@@ -1,0 +1,12 @@
+<h1>Edit Attendance Detail for <%= @attendance_detail.participant.name %></h1>
+<form action="<%= branch_event_attendance_detail_path(@branch, @event, @attendance_detail) %>" method="post">
+  <input type="hidden" name="_method" value="put"/>
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+  Status: <select name="attendance_detail[status]">
+    <option value="partial" <%= "selected" if @attendance_detail.status == 'partial' %>>Partial</option>
+    <option value="full" <%= "selected" if @attendance_detail.status == 'full' %>>Full</option>
+  </select><p/>
+  <input type="submit" value="Save"/>
+</form>
+<p/>
+<a href="<%= branch_event_path(@branch, @event) %>">Return to Event</a>
