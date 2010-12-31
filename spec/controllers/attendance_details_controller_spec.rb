@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AttendanceDetailsController do
   before(:each) do
+    authorised
     Branch.delete_all
     Event.delete_all
     Participant.delete_all

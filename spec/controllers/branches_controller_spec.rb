@@ -3,6 +3,7 @@ require 'spec_helper'
 describe BranchesController do
 
   before(:each) do
+    authorised
     Branch.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
     @branch_2 = Branch.create! :name => 'Test 2'

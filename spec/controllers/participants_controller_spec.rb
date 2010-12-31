@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ParticipantsController do
   before(:each) do
+    authorised
     Branch.delete_all
     @branch_1 = Branch.create :name => 'Test 1'
     Participant.delete_all

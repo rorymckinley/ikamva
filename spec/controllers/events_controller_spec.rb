@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe EventsController do
   before(:each) do
+    authorised
     Branch.delete_all
     Event.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
