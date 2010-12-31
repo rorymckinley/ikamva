@@ -50,5 +50,14 @@ describe "events/index.erb" do
       attendance_list_link.should contain "Attendance Details"
     end
   end
+
+  it "should provide a link to return to the branch listing" do
+    assign(:events, [@event_1, @event_2])
+    assign(:branch, @branch)
+    render
+    rendered.should have_selector("a", :href => branches_path) do |branches_link|
+      branches_link.should contain "Return to Branches"
+    end
+  end
 end
 

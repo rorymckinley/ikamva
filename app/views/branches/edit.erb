@@ -1,10 +1,7 @@
-<html>
-  <head>
-  </head>
-  <body>
+<h1> Edit Branch </h1>
     <form method="post" action="<%= branch_path(@branch) %>">
       <input type='hidden' value='put' name='_method'/>
       <%= render "form" %>
     </form>
-  </body>
-</html>
+    <p/>
+    <a href="<%= branches_path %>">Return to Branches</a>
