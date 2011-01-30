@@ -16,6 +16,6 @@ class Event < ActiveRecord::Base
   end
 
   def late_after
-    start + 15.minutes
+    start + 20.minutes
   end
 end
