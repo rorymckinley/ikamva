@@ -1,4 +1,4 @@
-class Participant < ActiveRecord::Base
+class Member < ActiveRecord::Base
   def self.participation_types
     [{"learner"=>"Learner"}, {"volunteer"=>"Volunteer"}]
   end
