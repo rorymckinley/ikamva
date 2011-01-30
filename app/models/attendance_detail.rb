@@ -1,5 +1,5 @@
 class AttendanceDetail < ActiveRecord::Base
-  belongs_to :participant
+  belongs_to :member
   belongs_to :event
 
   before_create :calculate_status

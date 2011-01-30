@@ -4,15 +4,15 @@ describe "attendance_details/index" do
   before(:each) do
     Branch.delete_all
     Event.delete_all
-    Participant.delete_all
+    Member.delete_all
     AttendanceDetail.delete_all
 
     @branch_1 = Branch.create! :name => 'Test 1'
     @event = @branch_1.events.create! :purpose => 'tutorial', :start => Time.now, :end => Time.now + 2.hours
-    @participant_1 = Participant.create! :name => 'Part One', :card_number => '1234'
-    @participant_2 = Participant.create! :name => 'Part Two', :card_number => '2234'
-    @detail_1 = @event.attendance_details.create :participant => @participant_1, :status => 'full'
-    @detail_2 = @event.attendance_details.create :participant => @participant_2, :status => 'partial'
+    @member_1 = Member.create! :name => 'Part One', :card_number => '1234'
+    @member_2 = Member.create! :name => 'Part Two', :card_number => '2234'
+    @detail_1 = @event.attendance_details.create :member => @member_1, :status => 'full'
+    @detail_2 = @event.attendance_details.create :member => @member_2, :status => 'partial'
   end
 
   it "should render a list of all attendance details for an event" do

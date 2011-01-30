@@ -4,13 +4,13 @@ describe "attendance_details/edit" do
   before(:each) do
     Branch.delete_all
     Event.delete_all
-    Participant.delete_all
+    Member.delete_all
     AttendanceDetail.delete_all
 
     @branch= Branch.create! :name => 'Test 1'
     @event = @branch.events.create! :purpose => 'tutorial', :start => Time.now, :end => Time.now + 2.hours
-    @participant = Participant.create! :name => 'Part One', :card_number => '1234'
-    @attendance_detail = @event.attendance_details.create! :status => 'full', :participant => @participant
+    @member = Member.create! :name => 'Part One', :card_number => '1234'
+    @attendance_detail = @event.attendance_details.create! :status => 'full', :member => @member
   end
 
   it "should provide a form that can be used to edit an attendance detail record" do
@@ -18,7 +18,7 @@ describe "attendance_details/edit" do
     assign(:event, @event)
     assign(:attendance_detail, @attendance_detail)
     render
-    rendered.should contain("Edit Attendance Detail for #{@participant.name}")
+    rendered.should contain("Edit Attendance Detail for #{@member.name}")
     rendered.should have_selector("form", :action => branch_event_attendance_detail_path(@branch, @event, @attendance_detail), :method => "post") do |form|
       form.should have_selector("select", :name => "attendance_detail[status]") do |select|
         select.should have_selector("option", :value => "full", :selected => "selected") do |selected_option|

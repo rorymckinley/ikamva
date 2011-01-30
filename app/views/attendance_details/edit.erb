@@ -1,4 +1,4 @@
-<h1>Edit Attendance Detail for <%= @attendance_detail.participant.name %></h1>
+<h1>Edit Attendance Detail for <%= @attendance_detail.member.name %></h1>
 <form action="<%= branch_event_attendance_detail_path(@branch, @event, @attendance_detail) %>" method="post">
   <input type="hidden" name="_method" value="put"/>
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
