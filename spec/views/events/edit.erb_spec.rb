@@ -5,7 +5,7 @@ describe "events/edit.erb" do
     Branch.delete_all
     Event.delete_all
     @branch_1 = Branch.create! :name => "Test Branch"
-    @event = @branch_1.events.create! :start => Time.now, :end => Time.now + 2.hours, :purpose => "tutorial"
+    @event = @branch_1.events.create! :start => Time.now, :end => Time.now + 2.hours, :purpose => "tutorial", :grade => 11
   end
 
   it "should provide a form to edit an existing event" do
@@ -23,6 +23,9 @@ describe "events/edit.erb" do
           selected_option.should contain("Tutorial")
         end
         select.should have_selector("option", :value => "workshop")
+      end
+      form.should have_selector("select", :name => "event[grade]") do |select|
+        select.should have_selector("option", :value => "11", :selected => "selected")
       end
       form.should have_selector("input", :type => "submit", :value => "Save")
     end
