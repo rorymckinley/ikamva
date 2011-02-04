@@ -13,7 +13,7 @@ describe Event do
                                    ]
   end
 
-  it "should return a time after which participants are considered to be late" do
+  it "should return a time after which members are considered to be late" do
     event = Event.create! :start => Time.now, :end => Time.now + 1.hour, :purpose => 'tutorial'
     event.late_after.should == event.start + 20.minutes
   end

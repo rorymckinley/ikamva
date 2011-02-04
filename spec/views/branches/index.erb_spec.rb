@@ -29,11 +29,11 @@ describe "branches/index.erb" do
     rendered.should have_selector("a", :href => edit_branch_path(@branch_1))
   end
 
-  it "should provide a link to list the branch's participants" do
+  it "should provide a link to list the branch's members" do
     assign(:branches, [ @branch_1, @branch_2 ])
     render
-    rendered.should have_selector("a", :href => branch_participants_path(@branch_1)) do |link|
-      link.should contain("Participants")
+    rendered.should have_selector("a", :href => branch_members_path(@branch_1)) do |link|
+      link.should contain("Members")
     end
   end
 
