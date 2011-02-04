@@ -20,10 +20,11 @@ describe EventsController do
   end
 
   it "should provide a way to create a new event" do
-    post :create, :branch_id => @branch_1.id, :event => { "start" => "2010-12-05 12:00", "end" => "2010-12-05 14:00", "purpose"=> 'homework'}
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "2010-12-05 12:00", "end" => "2010-12-05 14:00", "purpose"=> 'homework', "grade" => 8}
     event = Event.find(:first)
     event.branch.should == @branch_1
     event.purpose.should == 'homework'
+    event.grade.should == 8
     event.start.strftime("%Y%m%d%H%M%S").should == "20101205120000"
     event.end.strftime("%Y%m%d%H%M%S").should == "20101205140000"
     event.start.zone.should == 'SAST'
