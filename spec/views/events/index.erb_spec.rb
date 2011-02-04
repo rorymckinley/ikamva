@@ -6,8 +6,8 @@ describe "events/index.erb" do
     Event.delete_all
     
     @branch = Branch.create :name => 'Test 1'
-    @event_1 = Event.create! :purpose => 'homework', :start => Time.now, :end => Time.now + 2.hours, :branch => @branch
-    @event_2 = Event.create! :purpose => 'tutorial', :start => Time.now, :end => Time.now + 2.hours, :branch => @branch
+    @event_1 = Event.create! :purpose => 'homework', :start => Time.now, :end => Time.now + 2.hours, :branch => @branch, :grade => 10
+    @event_2 = Event.create! :purpose => 'tutorial', :start => Time.now, :end => Time.now + 2.hours, :branch => @branch, :grade => 10
   end
 
   it "should display a list of events" do
