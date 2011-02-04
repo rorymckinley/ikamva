@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :branch
   has_many :attendance_details
-  has_many :participants, :through => :attendance_details
+  has_many :members, :through => :attendance_details
 
   def self.event_purposes
     [
