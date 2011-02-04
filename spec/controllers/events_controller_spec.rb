@@ -31,18 +31,18 @@ describe EventsController do
   end
   
   it "should redirect to the listing of the branch's events after creation" do
-    post :create, :branch_id => @branch_1.id, :event => { "start" => "2010-12-05 12:00", "end" => "2010-12-05 14:00", "purpose"=> 'homework'}
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "2010-12-05 12:00", "end" => "2010-12-05 14:00", "purpose"=> 'homework', "grade"=> 11}
     response.should redirect_to branch_events_path(@branch_1)
   end
 
   it "should set a message indicating that the even thas been created" do
-    post :create, :branch_id => @branch_1.id, :event => { "start" => "2010-12-05 12:00", "end" => "2010-12-05 14:00", "purpose"=> 'homework'}
+    post :create, :branch_id => @branch_1.id, :event => { "start" => "2010-12-05 12:00", "end" => "2010-12-05 14:00", "purpose"=> 'homework', "grade"=> 11}
     flash[:event].should == "Event created"
   end
 
   it "should list the events for a particular branch" do
-    Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial"
-    Event.create :branch_id => @branch_1.id, :start => "2010-12-05 16:00", :end => "2010-12-05 18:00", :purpose => "tutorial"
+    Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial", :grade => 11
+    Event.create :branch_id => @branch_1.id, :start => "2010-12-05 16:00", :end => "2010-12-05 18:00", :purpose => "tutorial", :grade => 11
     get :index, :branch_id => @branch_1.id
     response.should render_template 'events/index' 
     @branch_1.reload
@@ -52,7 +52,7 @@ describe EventsController do
   end
 
   it "should provide a form for editing an event" do
-    Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial"
+    Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial", :grade => 11
     @branch_1.reload
     get :edit, :branch_id => @branch_1.id, :id => @branch_1.events.first.id
     assigns[:purposes].should == Event.event_purposes
@@ -63,23 +63,24 @@ describe EventsController do
   end
 
   it "should update an event" do
-    event = Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial"
-    put :update, :branch_id => @branch_1.id, :id => event.id, "event" => {"start" => "2010-12-05 16:00", "end" => "2010-12-05 18:00", "purpose" => 'homework'}
+    event = Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial", :grade => 11
+    put :update, :branch_id => @branch_1.id, :id => event.id, "event" => {"start" => "2010-12-05 16:00", "end" => "2010-12-05 18:00", "purpose" => 'homework', "grade" => 10}
     event.reload
     event.start.strftime("%Y%m%d%H%M%S %Z").should ==  "20101205160000 SAST"
     event.end.strftime("%Y%m%d%H%M%S %Z").should ==  "20101205180000 SAST"
     event.purpose.should == 'homework'
+    event.grade.should == 10
   end
 
   it "should redirect to the event listing page after updating an event" do
-    event = Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial"
-    put :update, :branch_id => @branch_1.id, :id => event.id, "event" => {"start" => "2010-12-05 16:00", "end" => "2010-12-05 18:00", "purpose" => 'homework'}
+    event = Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial", :grade => 11
+    put :update, :branch_id => @branch_1.id, :id => event.id, "event" => {"start" => "2010-12-05 16:00", "end" => "2010-12-05 18:00", "purpose" => 'homework', "grade" => 11}
     response.should redirect_to branch_events_path(@branch_1)
   end
 
   it "should provide a message indicating that the event was updated" do
-    event = Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial"
-    put :update, :branch_id => @branch_1.id, :id => event.id, "event" => {"start" => "2010-12-05 16:00", "end" => "2010-12-05 18:00", "purpose" => 'homework'}
+    event = Event.create :branch_id => @branch_1.id, :start => "2010-12-05 12:00", :end => "2010-12-05 14:00", :purpose => "tutorial", :grade => 11
+    put :update, :branch_id => @branch_1.id, :id => event.id, "event" => {"start" => "2010-12-05 16:00", "end" => "2010-12-05 18:00", "purpose" => 'homework', "grade" => 11}
     flash[:event].should == 'Event Updated'
 
   end
