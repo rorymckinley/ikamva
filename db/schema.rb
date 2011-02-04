@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110204123344) do
+ActiveRecord::Schema.define(:version => 20110204192531) do
 
   create_table "attendance_details", :force => true do |t|
     t.integer  "event_id"
@@ -35,12 +35,29 @@ ActiveRecord::Schema.define(:version => 20110204123344) do
   end
 
   create_table "members", :force => true do |t|
-    t.string   "name"
     t.string   "card_number"
     t.string   "participation"
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "first_name"
+    t.string   "surname"
+    t.string   "gender"
+    t.date     "date_of_birth"
+    t.string   "mobile_number"
+    t.string   "parent_guardian_number"
+    t.boolean  "disabilities"
+    t.string   "address"
+    t.string   "school"
+    t.string   "email"
+    t.string   "id_number"
+    t.string   "citizenship"
+    t.string   "parent_guardian_1_relationship"
+    t.string   "parent_guardian_2_relationship"
+    t.string   "parent_guardian_1_job"
+    t.string   "parent_guardian_2_job"
+    t.text     "subjects"
+    t.text     "ikamvanite_family_members"
   end
 
 end
