@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AttendanceDetail do
   before(:each) do
-      @member = Member.create! :name => 'Part One', :card_number => '1234'
+      @member = Member.create! :first_name => 'Part', :surname => 'One', :card_number => '1234'
   end
 
   context "on creation" do

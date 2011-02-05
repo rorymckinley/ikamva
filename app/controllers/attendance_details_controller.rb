@@ -16,7 +16,7 @@ class AttendanceDetailsController < ApplicationController
     end
 
     attendance_detail = event.attendance_details.create :member_id => member.id, :status => params[:attendance_detail]["status"]
-    flash[:attendance_detail] = "#{member.name} has #{attendance_detail.status} credit"
+    flash[:attendance_detail] = "#{member.first_name} #{member.surname} has #{attendance_detail.status} credit"
     redirect_to new_branch_event_attendance_detail_path(branch, event)
   end
 

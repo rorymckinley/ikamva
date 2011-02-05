@@ -4,7 +4,7 @@
 <table>
   <% @members.each do |member| %>
     <tr>
-      <td><%= member.name %></td>
+      <td><%= "#{member.first_name} #{member.surname}" %></td>
       <td><%= member.card_number %></td>
       <td><%= (@participation_types.inject({}) { |hash,element| hash.merge! element })[member.participation] %></td>
       <td><a href="<%= edit_branch_member_path(@branch, member) %>">Edit Member</a></td>

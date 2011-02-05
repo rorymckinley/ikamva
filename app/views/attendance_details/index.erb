@@ -2,7 +2,7 @@
 <table>
 <% @event.attendance_details.each do |detail| %>
   <tr>
-    <td><%= detail.member.name %></td>
+    <td><%= "#{detail.member.first_name} #{detail.member.surname}" %></td>
     <td><%= detail.status.capitalize %></td>
     <td><a href="<%= edit_branch_event_attendance_detail_path(@branch, @event, detail) %>">Edit Attendance Detail</a></td>
   </tr>

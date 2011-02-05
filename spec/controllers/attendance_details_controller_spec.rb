@@ -10,7 +10,7 @@ describe AttendanceDetailsController do
 
     @branch_1 = Branch.create! :name => 'Test 1'
     @event = @branch_1.events.create! :purpose => 'tutorial', :start => Time.now, :end => Time.now + 2.hours
-    @member = Member.create! :name => 'Part One', :card_number => '1234'
+    @member = Member.create! :first_name => 'Part', :surname => 'One', :card_number => '1234'
   end
 
   it "should provide a form for capturing attendance detail" do
@@ -42,7 +42,7 @@ describe AttendanceDetailsController do
   it "should display the status of the attendance detail created when returning to the form" do
     post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "card_number" => '1234'}, :attendance_detail => { 'status' => 'full' }
     attendance_detail = AttendanceDetail.find(:first)
-    flash[:attendance_detail].should == "#{@member.name} has #{attendance_detail.status} credit"
+    flash[:attendance_detail].should == "#{@member.first_name} #{@member.surname} has #{attendance_detail.status} credit"
   end
 
   it "should return an error if the card number cannot be mapped to a member" do

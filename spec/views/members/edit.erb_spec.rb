@@ -5,7 +5,7 @@ describe "members/edit.erb" do
     Member.delete_all
     Branch.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
-    @member_first = @branch_1.members.create! :name => 'test 1', :card_number => '12345', :participation => 'learner'
+    @member_first = @branch_1.members.create! :first_name => 'test', :surname => '1', :card_number => '12345', :participation => 'learner'
   end
 
   it "should list the details of the member being edited" do

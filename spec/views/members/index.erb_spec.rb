@@ -5,8 +5,8 @@ describe "members/index.erb" do
     Member.delete_all
     Branch.delete_all
     @branch_1 = Branch.create! :name => 'Test 1'
-    @member_first = @branch_1.members.create! :name => 'test 1', :card_number => '12345', :participation => 'learner'
-    @member_second = @branch_1.members.create! :name => 'test 2', :card_number => '12346', :participation => 'volunteer'
+    @member_first = @branch_1.members.create! :first_name => 'test', :surname => '1', :card_number => '12345', :participation => 'learner'
+    @member_second = @branch_1.members.create! :first_name => 'test', :surname => '2', :card_number => '12346', :participation => 'volunteer'
   end
 
   it "should list all the members for a branch" do
