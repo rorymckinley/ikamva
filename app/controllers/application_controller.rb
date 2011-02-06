@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate
+    return true if Rails.env == 'development'
     authenticate_or_request_with_http_basic do |username, password|
       username == ENV['username'] && password == ENV['password']
     end
