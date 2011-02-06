@@ -10,6 +10,7 @@ class AddAdditionalFieldsToMembers < ActiveRecord::Migration
     add_column :members, :disabilities, :boolean
     add_column :members, :address, :string
     add_column :members, :school, :string
+    add_column :members, :grade, :string
     add_column :members, :email, :string
     add_column :members, :id_number, :string
     add_column :members, :citizenship, :string

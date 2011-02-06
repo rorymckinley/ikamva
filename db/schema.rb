@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20110204192531) do
     t.boolean  "disabilities"
     t.string   "address"
     t.string   "school"
+    t.string   "grade"
     t.string   "email"
     t.string   "id_number"
     t.string   "citizenship"

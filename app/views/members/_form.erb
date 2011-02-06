@@ -1,6 +1,89 @@
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-      Name: <input type="text" name="member[name]" value="<%= @member.name if @member %>"/><p/>
-      Card Number: <input type="text" name="member[card_number]" value="<%= @member.card_number if @member %>"/><p/>
-      Type: <%= select(:member, :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse }) %><p/>
-      <input type="submit" value="Save"/>
+<%= form_for([@branch, @member || Member.new]) do |f| %>
+<%= f.label :first_name %>
+<%= f.text_field :first_name %>
+<p/>
+<%= f.label :surname %>
+<%= f.text_field :surname %>
+<p/>
 
+<%= f.label :card_number %>
+<%= f.text_field :card_number %>
+<p/>
+
+<%= f.label :gender %>
+<%= f.text_field :gender %>
+<p/>
+
+<%= f.label :date_of_birth %>
+<%= f.text_field :date_of_birth %>
+<p/>
+
+<%= f.label :mobile_number %>
+<%= f.text_field :mobile_number %>
+<p/>
+
+<%= f.label :parent_guardian_number, "Parent/Guardian Number" %>
+<%= f.text_field :parent_guardian_number %>
+<p/>
+
+<%= f.label :disabilities %>
+<%= f.radio_button :disabilities, true %>
+<%= f.label :Yes %>
+<%= f.radio_button :disabilities, false %>
+<%= f.label :No %>
+<p/>
+
+<%= f.label :address %>
+<%= f.text_field :address %>
+<p/>
+
+<%= f.label :grade %>
+<%= f.text_field :grade %>
+<p/>
+
+<%= f.label :school %>
+<%= f.text_field :school %>
+<p/>
+
+<%= f.label :email %>
+<%= f.text_field :email %>
+<p/>
+
+<%= f.label :id_number %>
+<%= f.text_field :id_number %>
+<p/>
+
+<%= f.label :citizenship %>
+<%= f.text_field :citizenship %>
+<p/>
+
+<%= f.label :parent_guardian_1_relationship, "Relationship of First Parent/Guardian" %>
+<%= f.text_field :parent_guardian_1_relationship %>
+<p/>
+
+<%= f.label :parent_guardian_2_relationship, "Relationship of Second Parent/Guardian" %>
+<%= f.text_field :parent_guardian_2_relationship %>
+<p/>
+
+<%= f.label :parent_guardian_1_job, "Job of First Parent/Guardian" %>
+<%= f.text_field :parent_guardian_1_job %>
+<p/>
+
+<%= f.label :parent_guardian_2_job, "Job of Second Parent/Guardian" %>
+<%= f.text_field :parent_guardian_2_job %>
+<p/>
+
+<%= f.label :subjects %>
+<%= f.text_area :subjects %>
+<p/>
+
+<%= f.label :ikamvanite_family_members, "Family Members that are ikamvanites" %>
+<%= f.text_area :ikamvanite_family_members %>
+<p/>
+
+<%= f.label :participation %>
+<%= f.select :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse } %>
+<p/>
+
+<%= submit_tag %>
+<% end %>

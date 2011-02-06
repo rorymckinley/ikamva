@@ -1,7 +1,6 @@
 <h1>Edit Member</h1>
-    <form method="post" action="<%= branch_member_path(@branch, @member) %>">
-      <input type="hidden" name="_method" value="put"/>
+<%= form_for([@branch, @member]) do |f| %>
       <%= render "form" %>
-    </form>
+<% end %>
     <p/>
     <a href="<%= branch_members_path(@branch) %>">Return To Member List</a>
