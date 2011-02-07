@@ -14,15 +14,12 @@ describe "members/edit.erb" do
     assign(:participation_types, [ {'learner' => 'Learner'}, {'volunteer' => 'Volunteer'} ])
     render
     rendered.should have_selector("form", :method => "post", :action => branch_member_path(@branch_1, @member_first)) do |form|
-      form.should have_selector("input", :type => "hidden", :name => "_method", :value => "put")
-      form.should have_selector("input", :type => "hidden", :name => "authenticity_token")
-      form.should have_selector("input", :type => 'text', :name => "member[name]", :value => @member_first.name )
       form.should have_selector("input", :type => 'text', :name => "member[card_number]", :value => @member_first.card_number )
       form.should have_selector("select", :name => "member[participation]") do |select|
         select.should have_selector("option", :value => @member_first.participation, :selected => 'selected')
         select.should have_selector("option", :value => 'volunteer')
       end
-      form.should have_selector("input", :type => "submit", :value => "Save")
+      form.should have_selector("input", :type => "submit", :value => "Save changes")
     end
   end
   it "should provide a link to return to the member listing" do
