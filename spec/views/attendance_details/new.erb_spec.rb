@@ -14,7 +14,7 @@ describe "attendance_details/new" do
     render
     rendered.should have_selector("form", :action => branch_event_attendance_details_path(@branch, @event), :method => "post") do |form|
       form.should have_selector("input", :type => "hidden", :name => "authenticity_token")
-      form.should have_selector("input", :type => "text", :name => "member[card_number]")
+      form.should have_selector("input", :type => "text", :name => "member[id]")
       form.should have_selector("select", :name => "attendance_detail[status]") do |select|
         select.should have_selector('option', :value => '') do |default_option|
           default_option.should contain('Calculate Attendance Status')

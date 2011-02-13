@@ -22,7 +22,7 @@ describe AttendanceDetailsController do
   end
 
   it "should allow attendance detail to be captured" do
-    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "card_number" => '1234'}, :attendance_detail => { 'status' => 'full' }
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => 'full' }
 
     AttendanceDetail.find(:first, :conditions => { :member_id => @member.id, :status => 'full'}).should_not be_nil
     @event.reload.members.should include @member
@@ -30,24 +30,24 @@ describe AttendanceDetailsController do
 
   it "should calculate the attendance detail status if none is provided" do
     event2 = @branch_1.events.create! :purpose => 'homework', :start => Time.now + 1.minute, :end => Time.now + 1.hour
-    post :create, :branch_id => @branch_1.id, :event_id => event2.id, :member => { "card_number" => '1234'}, :attendance_detail => { 'status' => '' }
+    post :create, :branch_id => @branch_1.id, :event_id => event2.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => '' }
     AttendanceDetail.find(:first, :conditions => { :status => 'full' }).should_not be_nil
   end
 
   it "should return to the form for capturing attendance details after creation" do
-    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "card_number" => '1234'}, :attendance_detail => { 'status' => 'full' }
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => {"id" => @member.id.to_s}, :attendance_detail => { 'status' => 'full' }
     response.should redirect_to new_branch_event_attendance_detail_path(@branch_1, @event)
   end
 
   it "should display the status of the attendance detail created when returning to the form" do
-    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "card_number" => '1234'}, :attendance_detail => { 'status' => 'full' }
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => 'full' }
     attendance_detail = AttendanceDetail.find(:first)
     flash[:attendance_detail].should == "#{@member.first_name} #{@member.surname} has #{attendance_detail.status} credit"
   end
 
   it "should return an error if the card number cannot be mapped to a member" do
-    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "card_number" => '0000'}, :attendance_detail => { 'status' => 'full' }
-    flash[:error].should == "No member with card number 0000"
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => (@member.id+1).to_s}, :attendance_detail => { 'status' => 'full' }
+    flash[:error].should == "No member with ID of #{@member.id + 1}"
   end
 
   it "should list all attendance details for an event" do

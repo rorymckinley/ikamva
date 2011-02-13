@@ -2,8 +2,15 @@
 <p/>
 <h1>Members for <%= @branch.name %></h1>
 <table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Card Number</th>
+    <th>Participation Type</th>
+  </tr>
   <% @members.each do |member| %>
     <tr>
+      <td><%= member.id %>
       <td><%= "#{member.first_name} #{member.surname}" %></td>
       <td><%= member.card_number %></td>
       <td><%= (@participation_types.inject({}) { |hash,element| hash.merge! element })[member.participation] %></td>

@@ -5,12 +5,13 @@ class AttendanceDetailsController < ApplicationController
   end
 
   def create
-    member = Member.find(:first, :conditions => { :card_number => params[:member]["card_number"]})
     event = Event.find(params[:event_id])
     branch = Branch.find(params[:branch_id])
 
-    unless member
-      flash[:error] = "No member with card number #{params[:member]["card_number"]}"
+    begin
+      member = Member.find(params[:member][:id])
+    rescue
+      flash[:error] = "No member with ID of #{params[:member]["id"]}"
       redirect_to new_branch_event_attendance_detail_path(branch, event)
       return
     end
