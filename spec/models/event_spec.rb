@@ -4,9 +4,14 @@ describe Event do
   it "should return a list of event purposes for selection" do
     Event.event_purposes.should == [
                                      { 'branchcom' => 'Branchcom Meeting' }, 
+                                     { 'careers' => 'Careers Indaba'},
+                                     { 'computer' => 'Computer Class'},
                                      { 'excursion' => 'Excursion' }, 
                                      { 'holiday' => 'Holiday Programme' }, 
                                      { 'homework' => 'Homework' }, 
+                                     { 'parents' => 'Parents Meeting'},
+                                     { 'prize' => 'Prize Giving'},
+                                     { 'talent' => 'Talent Show'},
                                      { 'tutorial' => 'Tutorial' }, 
                                      { 'training' => 'Volunteer Training' }, 
                                      { 'workshop' => 'Workshop' }
