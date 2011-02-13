@@ -2,11 +2,18 @@
 <p/>
 <h1>Events for <%= @branch.name %></h1>
     <table>
+      <tr>
+        <th>Purpose</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Grade</th>
+      </tr>
     <% @events.each do |event| %>
       <tr>
         <td><%= (Event.event_purposes.select { |purpose_set| purpose_set.has_key? event.purpose })[0][event.purpose] %></td>
         <td><%= event.start.strftime("%Y - %m - %d %H:%M:%S %Z") %></td>
         <td><%= event.end.strftime("%Y - %m - %d %H:%M:%S %Z") %></td>
+        <td><%= event.grade %></td>
         <td><a href="<%= edit_branch_event_path(@branch, event) %>">Edit Event</a></td>
         <td><a href="<%= new_branch_event_attendance_detail_path(@branch, event) %>">Add Attendance Detail</a></td>
         <td><a href="<%= branch_event_attendance_details_path(@branch, event) %>">Attendance Details</a></td>
