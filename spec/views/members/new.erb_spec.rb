@@ -14,22 +14,11 @@ describe "members/new.erb" do
       form.should have_selector("input", :type => "text", :name => "member[surname]")
       form.should have_selector("input", :type => "text", :name => "member[card_number]" )
       form.should have_selector("input", :type => "text", :name => "member[gender]" )
-      form.should have_selector("input", :type => "text", :name => "member[date_of_birth]" )
       form.should have_selector("input", :type => "text", :name => "member[mobile_number]" )
-      form.should have_selector("input", :type => "text", :name => "member[parent_guardian_number]" )
-      form.should have_selector("input", :type => "radio", :name => "member[disabilities]" )
+      form.should have_selector("input", :type => "text", :name => "member[telephone_number]" )
       form.should have_selector("input", :type => "text", :name => "member[address]" )
-      form.should have_selector("input", :type => "text", :name => "member[school]" )
-      form.should have_selector("input", :type => "text", :name => "member[grade]" )
       form.should have_selector("input", :type => "text", :name => "member[email]" )
       form.should have_selector("input", :type => "text", :name => "member[id_number]" )
-      form.should have_selector("input", :type => "text", :name => "member[citizenship]" )
-      form.should have_selector("input", :type => "text", :name => "member[parent_guardian_1_relationship]" )
-      form.should have_selector("input", :type => "text", :name => "member[parent_guardian_2_relationship]" )
-      form.should have_selector("input", :type => "text", :name => "member[parent_guardian_1_job]" )
-      form.should have_selector("input", :type => "text", :name => "member[parent_guardian_2_job]" )
-      form.should have_selector("textarea", :name => "member[subjects]")
-      form.should have_selector("textarea", :name => "member[ikamvanite_family_members]")
 
       form.should have_selector("select", :name => "member[participation]") do |select|
         select.should have_selector("option", :value => 'learner') do |option|

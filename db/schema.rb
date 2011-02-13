@@ -43,22 +43,11 @@ ActiveRecord::Schema.define(:version => 20110204192531) do
     t.string   "first_name"
     t.string   "surname"
     t.string   "gender"
-    t.date     "date_of_birth"
     t.string   "mobile_number"
-    t.string   "parent_guardian_number"
-    t.boolean  "disabilities"
+    t.string   "telephone_number"
     t.string   "address"
-    t.string   "school"
-    t.string   "grade"
     t.string   "email"
     t.string   "id_number"
-    t.string   "citizenship"
-    t.string   "parent_guardian_1_relationship"
-    t.string   "parent_guardian_2_relationship"
-    t.string   "parent_guardian_1_job"
-    t.string   "parent_guardian_2_job"
-    t.text     "subjects"
-    t.text     "ikamvanite_family_members"
   end
 
 end

@@ -6,6 +6,7 @@ class AddAdditionalFieldsToMembers < ActiveRecord::Migration
     add_column :members, :gender, :string
     #add_column :members, :date_of_birth, :date
     add_column :members, :mobile_number, :string
+    add_column :members, :telephone_number, :string
     #add_column :members, :parent_guardian_number, :string
     #add_column :members, :disabilities, :boolean
     add_column :members, :address, :string
