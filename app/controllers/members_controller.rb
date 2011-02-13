@@ -5,8 +5,8 @@ class MembersController < ApplicationController
   end
 
   def create
-    Branch.find(params[:branch_id]).members.create! params[:member]
-    flash[:member] = 'Member created'
+    member = Branch.find(params[:branch_id]).members.create! params[:member]
+    flash[:member] = "Member created with ID of #{member.id}"
     redirect_to branch_members_path(:branch_id => params[:branch_id])
   end
 

@@ -30,7 +30,7 @@ describe MembersController do
 
   it "should post a message to indicate that creation of the member was sucessful" do
     post :create, :branch_id => @branch_1.id, :member => { :first_name => 'Test', :surname => 'Member', :card_number => '1235', :participation => 'volunteer'}
-    flash[:member].should == 'Member created'
+    flash[:member].should == "Member created with ID of #{Member.find(:first).id}"
   end
 
   it "should list all members for a branch" do
