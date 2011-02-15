@@ -23,6 +23,8 @@ describe "events/new.erb" do
         select.should have_selector("option", :value => "type_2")
       end
       form.should have_selector("select", :name => "event[grade]") do |select|
+        select.should have_selector("option", :value => "8")
+        select.should have_selector("option", :value => "9")
         select.should have_selector("option", :value => "10")
         select.should have_selector("option", :value => "11")
         select.should have_selector("option", :value => "12")
