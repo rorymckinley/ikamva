@@ -28,6 +28,21 @@ describe AttendanceDetailsController do
     @event.reload.members.should include @member
   end
 
+  it "should not allow a member's attendance to be captured more than once for the same event" do
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => 'full' }
+    AttendanceDetail.all.should have(1).entry
+
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => 'partial' }
+    AttendanceDetail.all.should have(1).entry
+  end
+
+  it "should return an error message if there is an attemp tto capture attendance for a member more than once for the same event" do
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => 'full' }
+
+    post :create, :branch_id => @branch_1.id, :event_id => @event.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => 'partial' }
+    flash[:error].should == "Attendance already captured for member with ID #{@member.id}"
+  end
+
   it "should calculate the attendance detail status if none is provided" do
     event2 = @branch_1.events.create! :purpose => 'homework', :start => Time.now + 1.minute, :end => Time.now + 1.hour
     post :create, :branch_id => @branch_1.id, :event_id => event2.id, :member => { "id" => @member.id.to_s }, :attendance_detail => { 'status' => '' }

@@ -8,11 +8,18 @@ class AttendanceDetailsController < ApplicationController
     event = Event.find(params[:event_id])
     branch = Branch.find(params[:branch_id])
 
+    # TODO All of this must be reaftored into the model
     begin
       member = Member.find(params[:member][:id])
     rescue
       flash[:error] = "No member with ID of #{params[:member]["id"]}"
       redirect_to new_branch_event_attendance_detail_path(branch, event)
+      return
+    end
+
+    if event.members.include? member
+      redirect_to new_branch_event_attendance_detail_path(branch, event)
+      flash[:error] = "Attendance already captured for member with ID #{member.id}"
       return
     end
 
