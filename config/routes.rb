@@ -5,6 +5,11 @@ Ikamva::Application.routes.draw do
     end
     resources :members
   end
+  resources :uploads do
+    collection do
+      post :branches
+    end
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
