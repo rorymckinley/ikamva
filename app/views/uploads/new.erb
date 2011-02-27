@@ -1,0 +1,4 @@
+<%= form_for :upload, :url => 'branches', :html => { :multipart => true } do |f| -%>
+  <%= f.file_field :stuff %>
+  <%= f.submit "Upload", :disable_with => 'Uploading...' %>
+<% end -%>
