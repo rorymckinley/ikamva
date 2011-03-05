@@ -8,7 +8,7 @@ class Upload
   end
   def self.import_combined(content)
     FasterCSV.parse(content) do |combined_record|
-      Branch.create! :name => combined_record[0]
+      Branch.create! :name => combined_record[0] unless Branch.find_by_name combined_record[0]
     end
   end
 end
