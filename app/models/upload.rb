@@ -6,4 +6,9 @@ class Upload
       Branch.create! :name => branch_record[0]
     end
   end
+  def self.import_combined(content)
+    FasterCSV.parse(content) do |combined_record|
+      Branch.create! :name => combined_record[0]
+    end
+  end
 end

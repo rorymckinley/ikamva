@@ -8,6 +8,7 @@ Ikamva::Application.routes.draw do
   resources :uploads do
     collection do
       post :branches
+      post :combined
     end
   end
   # The priority is based upon order of creation:
