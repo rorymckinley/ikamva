@@ -71,5 +71,10 @@ describe Upload do
       Member.first.first_name.should == "Learner"
       Member.first.surname.should == "One"
     end
+    it "should link members to branches" do
+      Upload.import_combined(@contents)
+      Branch.find_by_name("Branch 1").members.first.surname.should == "One"
+      Branch.find_by_name("Branch 2").members.first.surname.should == "Two"
+    end
   end
 end
