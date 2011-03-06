@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Upload do
   before(:each) do
+      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"Branch 2\",\"homework\",\"2011-01-02\""
     Branch.delete_all
   end
   context "branches" do
@@ -12,19 +13,19 @@ describe Upload do
       branches[1].name.should == "Branch 2"
     end
     it "should import a set of combined data and generate branch entries from the content" do
-      Upload.import_combined("Branch 1\nBranch 2")
+      Upload.import_combined(@contents)
       branches = Branch.all
       branches.should have(2).elements
       branches[1].name.should == "Branch 2"
     end
     it "should import a set of combined data and exclude duplicate branch entries" do
-      Upload.import_combined("Branch 1\nBranch 2\n   Branch 1   ")
+      Upload.import_combined("\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"Branch 2\",\"homework\",\"2011-01-02\"\n\"   Branch 1   \",\"homework\",\"2011-01-02\"")
       branches = Branch.all
       branches.should have(2).elements
       branches[1].name.should == "Branch 2"
     end
     it "should strip any trailing or leading whitespace from the branch name before saving it" do
-      Upload.import_combined("Branch 1\n    Branch 2    ")
+      Upload.import_combined("\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"   Branch 2   \",\"homework\",\"2011-01-02\"")
       branches = Branch.all
       branches.should have(2).elements
       branches[1].name.should == "Branch 2"
@@ -32,10 +33,11 @@ describe Upload do
   end
   context "Events" do
     before(:each) do
+      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"Branch 2\",\"homework\",\"2011-01-02\""
       Event.delete_all
     end
     it "should import event data and link it to the branch specified in the record" do
-      Upload.import_combined("\"Branch 1\",\"tutorial\"\n\"Branch 2\",\"homework\"")
+      Upload.import_combined(@contents)
       events = Event.all
       events.should have(2).elements
       events[1].purpose.should == 'homework'
@@ -44,8 +46,14 @@ describe Upload do
     end
     it "should import event data and link it to a branch that already exist in the database" do
       branch = Branch.create! :name => "Branch 1"
-      Upload.import_combined("\"Branch 1\",\"tutorial\"\n\"Branch 2\",\"homework\"")
+      Upload.import_combined(@contents)
       Event.first.branch.should == branch
+    end
+    it "should create start and end timestamps for each event" do
+      Time.zone = "Pretoria"
+      Upload.import_combined(@contents)
+      Event.first.start.should == Time.parse("2011-01-01") + 2.hours
+      Event.first.end.should == Time.parse("2011-01-01") + 4.hours
     end
   end
 end
