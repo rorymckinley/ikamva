@@ -33,7 +33,8 @@ describe Upload do
   end
   context "Events" do
     before(:each) do
-      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"Branch 2\",\"homework\",\"2011-01-02\""
+      Time.zone = "Pretoria"
+      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\",8\n\"Branch 2\",\"homework\",\"2011-01-02\",9"
       Event.delete_all
     end
     it "should import event data and link it to the branch specified in the record" do
@@ -50,10 +51,13 @@ describe Upload do
       Event.first.branch.should == branch
     end
     it "should create start and end timestamps for each event" do
-      Time.zone = "Pretoria"
       Upload.import_combined(@contents)
       Event.first.start.should == Time.parse("2011-01-01") + 2.hours
       Event.first.end.should == Time.parse("2011-01-01") + 4.hours
+    end
+    it "should link an event to a grade" do
+      Upload.import_combined(@contents)
+      Event.first.grade.should == 8
     end
   end
 end
