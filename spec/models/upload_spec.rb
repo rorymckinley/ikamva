@@ -60,4 +60,16 @@ describe Upload do
       Event.first.grade.should == 8
     end
   end
+  context "Members" do
+    before(:each) do 
+      Member.delete_all
+      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\",8,\"Learner\",\"One\"\n\"Branch 2\",\"homework\",\"2011-01-02\",9,\"Learner\",\"Two\""
+    end
+    it "should create members based on the records passed in" do
+      Upload.import_combined(@contents)
+      Member.all.should have(2).members
+      Member.first.first_name.should == "Learner"
+      Member.first.surname.should == "One"
+    end
+  end
 end
