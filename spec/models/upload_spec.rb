@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Upload do
   before(:each) do
-      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"Branch 2\",\"homework\",\"2011-01-02\""
+    @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch Two","Rubble","Barney",9,,1}
     Branch.delete_all
   end
   context "branches" do
@@ -16,62 +18,57 @@ describe Upload do
       Upload.import_combined(@contents)
       branches = Branch.all
       branches.should have(2).elements
-      branches[1].name.should == "Branch 2"
+      branches[1].name.should == "Branch Two"
     end
     it "should import a set of combined data and exclude duplicate branch entries" do
-      Upload.import_combined("\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"Branch 2\",\"homework\",\"2011-01-02\"\n\"   Branch 1   \",\"homework\",\"2011-01-02\"")
+    @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch Two","Rubble","Barney",9,,1
+"  Branch One  ","Rubble","Barney",9,,1}
+      Upload.import_combined(@contents)
       branches = Branch.all
       branches.should have(2).elements
-      branches[1].name.should == "Branch 2"
+      branches[1].name.should == "Branch Two"
     end
     it "should strip any trailing or leading whitespace from the branch name before saving it" do
-      Upload.import_combined("\"Branch 1\",\"tutorial\",\"2011-01-01\"\n\"   Branch 2   \",\"homework\",\"2011-01-02\"")
+    @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"    Branch Two  ","Rubble","Barney",9,,1}
+      Upload.import_combined(@contents)
       branches = Branch.all
       branches.should have(2).elements
-      branches[1].name.should == "Branch 2"
+      branches[1].name.should == "Branch Two"
     end
   end
   context "Events" do
     before(:each) do
       Time.zone = "Pretoria"
-      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\",8\n\"Branch 2\",\"homework\",\"2011-01-02\",9"
+      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch Two","Rubble","Barney",9,,1
+      }
       Event.delete_all
     end
-    it "should import event data and link it to the branch specified in the record" do
-      Upload.import_combined(@contents)
-      events = Event.all
-      events.should have(2).elements
-      events[1].purpose.should == 'homework'
-      events[0].branch.name.should == "Branch 1"
-      events[1].branch.name.should == "Branch 2"
-    end
-    it "should import event data and link it to a branch that already exist in the database" do
-      branch = Branch.create! :name => "Branch 1"
-      Upload.import_combined(@contents)
-      Event.first.branch.should == branch
-    end
-    it "should create start and end timestamps for each event" do
-      Upload.import_combined(@contents)
-      Event.first.start.should == Time.parse("2011-01-01") + 2.hours
-      Event.first.end.should == Time.parse("2011-01-01") + 4.hours
-    end
-    it "should link an event to a grade" do
-      Upload.import_combined(@contents)
-      Event.first.grade.should == 8
-    end
+    it "should create an event for each branch-date-grade combination present in the data"
+    it "should create artificial start and end times for each event"
   end
   context "Members" do
     before(:each) do 
       Member.delete_all
-      @contents = "\"Branch 1\",\"tutorial\",\"2011-01-01\",8,\"Learner\",\"One\"\n\"Branch 2\",\"homework\",\"2011-01-02\",9,\"Learner\",\"Two\""
+      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch Two","Rubble","Barney",9,,1
+      }
     end
     it "should create members based on the records passed in" do
+      pending
       Upload.import_combined(@contents)
       Member.all.should have(2).members
       Member.first.first_name.should == "Learner"
       Member.first.surname.should == "One"
     end
     it "should link members to branches" do
+      pending
       Upload.import_combined(@contents)
       Branch.find_by_name("Branch 1").members.first.surname.should == "One"
       Branch.find_by_name("Branch 2").members.first.surname.should == "Two"
