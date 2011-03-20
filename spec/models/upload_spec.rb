@@ -110,4 +110,29 @@ describe Upload do
       Branch.find_by_name("Branch Two").members.find(:all, :conditions => { :surname => "Flintstone"}).should have(1).members
     end
   end
+  context "Attendance Details" do
+    before(:each) do
+      Member.delete_all
+      Branch.delete_all
+      Event.delete_all
+      AttendanceDetail.delete_all
+      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch One","Rubble","Betty",10,1,0.5
+"Branch One","Flintstone","Wilma",9,1,0.5
+"Branch Two","Rubble","Barney",9,,1}
+    end
+    it "should create an attendance detail entry for the each attended event" do
+      Upload.import_combined(@contents)
+      AttendanceDetail.all.should have(7).entries
+      branch_1 = Branch.find_by_name("Branch One")
+      branch_2 = Branch.find_by_name("Branch Two")
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/19")+2.hours, :grade => 10 }).members.should have(2).members
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/19")+2.hours, :grade => 10 }).members.should include Member.find_by_first_name("Fred")
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/19")+2.hours, :grade => 10 }).members.should include Member.find_by_first_name("Betty")
+
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 9 }).members.should == [Member.find_by_first_name("Wilma")]
+      branch_2.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 9 }).members.should == [Member.find_by_first_name("Barney")]
+    end
+  end
 end
