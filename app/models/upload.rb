@@ -15,7 +15,7 @@ class Upload
           branch.events.create! :grade => combined_record["Grade"], :start => Time.parse(key) + 2.hours, :end => Time.parse(key) + 4.hours
         end
       end
-      branch.members.create :first_name => combined_record["First Name"], :surname => combined_record["Surname"]
+      branch.members.create :first_name => combined_record["First Name"], :surname => combined_record["Surname"], :grade => combined_record["Grade"] unless branch.members.find(:first, :conditions => { :first_name => combined_record["First Name"], :surname => combined_record["Surname"], :grade => combined_record["Grade"]})
     end
   end
 end

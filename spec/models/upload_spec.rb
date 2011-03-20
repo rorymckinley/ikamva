@@ -85,12 +85,29 @@ describe Upload do
       Member.all.should have(2).members
       Member.first.first_name.should == "Fred"
       Member.first.surname.should == "Flintstone"
+      Member.first.grade.should == 10
       Member.last.surname.should == "Rubble"
     end
     it "should link members to branches" do
       Upload.import_combined(@contents)
       Branch.find_by_name("Branch One").members.first.surname.should == "Flintstone"
       Branch.find_by_name("Branch Two").members.first.surname.should == "Rubble"
+    end
+    it "should not create members if they already exist for that branch based on first name, surname and grade" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch One","Flintstone","Fred",9,1,0.5
+"Branch One","Right Said","Fred",9,1,0.5
+"Branch Two","Rubble","Barney",9,,1
+"Branch Two","Rubble","Betty",9,,1
+"Branch Two","Flintstone","Fred",10,1,0.5
+"Branch Two","Rubble","Barney",9,,1}
+      Upload.import_combined(@contents)
+      Branch.find_by_name("Branch One").members.find(:all, :conditions => { :surname => "Flintstone"}).should have(2).members
+      Branch.find_by_name("Branch One").members.find(:all, :conditions => { :surname => "Right Said"}).should have(1).members
+      Branch.find_by_name("Branch Two").members.find(:all, :conditions => { :first_name => "Betty"}).should have(1).member
+      Branch.find_by_name("Branch Two").members.find(:all, :conditions => { :first_name => "Barney"}).should have(1).member
+      Branch.find_by_name("Branch Two").members.find(:all, :conditions => { :surname => "Flintstone"}).should have(1).members
     end
   end
 end
