@@ -17,7 +17,7 @@ class Upload
       combined_record.each do |key,value|
         if key=~ /\d{4}\/\d{2}\/\d{2}/ && value 
           event = branch.events.find_by_grade_and_start(combined_record["Grade"], Time.parse(key) + 2.hours) || branch.events.create!(:grade => combined_record["Grade"], :start => Time.parse(key) + 2.hours, :end => Time.parse(key) + 4.hours)
-          event.attendance_details.create! :member => member
+          event.attendance_details.create! :member => member, :status => (value.to_i == 1 ? "full" : "partial")
         end
       end
     end

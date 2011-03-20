@@ -134,5 +134,13 @@ describe Upload do
       branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 9 }).members.should == [Member.find_by_first_name("Wilma")]
       branch_2.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 9 }).members.should == [Member.find_by_first_name("Barney")]
     end
+    it "should create attendance details with the correct status" do
+      Upload.import_combined(@contents)
+      fred = Member.find_by_first_name("Fred")
+      branch_1 = Branch.find_by_name("Branch One")
+
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/19")+2.hours, :grade => 10 }).attendance_details.find(:first, :conditions => { :member_id => fred.id }).status.should == 'full'
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 10 }).attendance_details.find(:first, :conditions => { :member_id => fred.id }).status.should == 'partial'
+    end
   end
 end
