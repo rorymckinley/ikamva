@@ -45,33 +45,52 @@ describe Upload do
       Time.zone = "Pretoria"
       @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
 "Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1
-      }
+"Branch Two","Rubble","Barney",9,,1}
       Event.delete_all
     end
-    it "should create an event for each branch-date-grade combination present in the data"
-    it "should create artificial start and end times for each event"
+    it "should create an event representing for which there has been attendance and linked to the appropriate grade" do
+      Upload.import_combined(@contents)
+      Event.all.should have(3).events
+      Branch.find(:first, :conditions => { :name => 'Branch One'}).events.find(:all, :conditions => {:grade => 10}).should have(2).events
+      Branch.find(:first, :conditions => { :name => 'Branch Two'}).events.find(:all, :conditions => {:grade => 9}).should have(1).event
+    end
+    it "should create artificial start and end times based on the date given" do
+      Upload.import_combined(@contents)
+      evt = Branch.find(:first, :conditions => { :name => 'Branch Two'}).events.first
+      evt.start.strftime("%Y-%m-%d %H:%M:%S %z").should == "2011-02-26 02:00:00 +0200"
+      evt.end.strftime("%Y-%m-%d %H:%M:%S %z").should == "2011-02-26 04:00:00 +0200"
+    end
+    it "should not create a duplicate event if there is already en event for a particular date-branch-grade combination" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch One","van Pebbles","Mario",9,1,0.5
+"Branch Two","Rubble","Barney",9,,1
+"Branch Two","Rubble","Barney",9,0.5,1}
+      Upload.import_combined(@contents)
+      Event.all.should have(6).events
+      Branch.find(:first, :conditions => { :name => 'Branch One'}).events.find(:all, :conditions => {:grade => 10}).should have(2).events
+      Branch.find(:first, :conditions => { :name => 'Branch One'}).events.find(:all, :conditions => {:grade => 9}).should have(2).events
+      Branch.find(:first, :conditions => { :name => 'Branch Two'}).events.find(:all, :conditions => {:grade => 9}).should have(2).events
+    end
   end
   context "Members" do
     before(:each) do 
       Member.delete_all
       @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
 "Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1
-      }
+"Branch Two","Rubble","Barney",9,,1}
     end
     it "should create members based on the records passed in" do
-      pending
       Upload.import_combined(@contents)
       Member.all.should have(2).members
-      Member.first.first_name.should == "Learner"
-      Member.first.surname.should == "One"
+      Member.first.first_name.should == "Fred"
+      Member.first.surname.should == "Flintstone"
+      Member.last.surname.should == "Rubble"
     end
     it "should link members to branches" do
-      pending
       Upload.import_combined(@contents)
-      Branch.find_by_name("Branch 1").members.first.surname.should == "One"
-      Branch.find_by_name("Branch 2").members.first.surname.should == "Two"
+      Branch.find_by_name("Branch One").members.first.surname.should == "Flintstone"
+      Branch.find_by_name("Branch Two").members.first.surname.should == "Rubble"
     end
   end
 end
