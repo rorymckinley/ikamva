@@ -16,8 +16,6 @@ class Upload
         end
       end
       branch.members.create :first_name => combined_record["First Name"], :surname => combined_record["Surname"]
-      # branch.events.create! :purpose => combined_record[1], :start => Time.parse(combined_record[2]) + 2.hours, :end => Time.parse(combined_record[2]) + 4.hours, :grade => combined_record[3]
-      # branch.members.create :first_name => combined_record[4], :surname => combined_record[5]
     end
   end
 end
