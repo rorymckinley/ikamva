@@ -93,6 +93,10 @@ describe Upload do
       Branch.find_by_name("Branch One").members.first.surname.should == "Flintstone"
       Branch.find_by_name("Branch Two").members.first.surname.should == "Rubble"
     end
+    it "should default all members to learners" do
+      Upload.import_combined(@contents)
+      Member.first.participation.should == "learner"
+    end
     it "should not create members if they already exist for that branch based on first name, surname and grade" do
       @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
 "Branch One","Flintstone","Fred",10,1,0.5
@@ -141,6 +145,17 @@ describe Upload do
 
       branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/19")+2.hours, :grade => 10 }).attendance_details.find(:first, :conditions => { :member_id => fred.id }).status.should == 'full'
       branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 10 }).attendance_details.find(:first, :conditions => { :member_id => fred.id }).status.should == 'partial'
+    end
+    it "should not create duplicate attendance detail records" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch One","Flintstone","Fred",10,1,0.5
+"Branch Two","Rubble","Barney",9,,1}
+      Upload.import_combined(@contents)
+      fred = Member.find_by_first_name("Fred")
+      branch_1 = Branch.find_by_name("Branch One")
+
+      branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/19")+2.hours, :grade => 10 }).attendance_details.should have(1).element
     end
   end
 end
