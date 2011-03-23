@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Upload do
   before(:each) do
-    @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1}
+    @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1}
     Branch.delete_all
   end
   context "branches" do
@@ -21,19 +21,19 @@ describe Upload do
       branches[1].name.should == "Branch Two"
     end
     it "should import a set of combined data and exclude duplicate branch entries" do
-    @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1
-"  Branch One  ","Rubble","Barney",9,,1}
+    @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1
+"  Branch One  ","Rubble","Barney",9,"2011/02/01",,1}
       Upload.import_combined(@contents)
       branches = Branch.all
       branches.should have(2).elements
       branches[1].name.should == "Branch Two"
     end
     it "should strip any trailing or leading whitespace from the branch name before saving it" do
-    @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"    Branch Two  ","Rubble","Barney",9,,1}
+    @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"    Branch Two  ","Rubble","Barney",9,"2011/02/01",,1}
       Upload.import_combined(@contents)
       branches = Branch.all
       branches.should have(2).elements
@@ -43,9 +43,6 @@ describe Upload do
   context "Events" do
     before(:each) do
       Time.zone = "Pretoria"
-      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1}
       Event.delete_all
     end
     it "should create an event representing for which there has been attendance and linked to the appropriate grade" do
@@ -61,11 +58,11 @@ describe Upload do
       evt.end.strftime("%Y-%m-%d %H:%M:%S %z").should == "2011-02-26 04:00:00 +0200"
     end
     it "should not create a duplicate event if there is already en event for a particular date-branch-grade combination" do
-      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch One","van Pebbles","Mario",9,1,0.5
-"Branch Two","Rubble","Barney",9,,1
-"Branch Two","Rubble","Barney",9,0.5,1}
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch One","van Pebbles","Mario",9,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1
+"Branch Two","Rubble","Barney",9,"2011/02/01",0.5,1}
       Upload.import_combined(@contents)
       Event.all.should have(6).events
       Branch.find(:first, :conditions => { :name => 'Branch One'}).events.find(:all, :conditions => {:grade => 10}).should have(2).events
@@ -76,9 +73,6 @@ describe Upload do
   context "Members" do
     before(:each) do 
       Member.delete_all
-      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1}
     end
     it "should create members based on the records passed in" do
       Upload.import_combined(@contents)
@@ -98,14 +92,14 @@ describe Upload do
       Member.first.participation.should == "learner"
     end
     it "should not create members if they already exist for that branch based on first name, surname and grade" do
-      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch One","Flintstone","Fred",9,1,0.5
-"Branch One","Right Said","Fred",9,1,0.5
-"Branch Two","Rubble","Barney",9,,1
-"Branch Two","Rubble","Betty",9,,1
-"Branch Two","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1}
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch One","Flintstone","Fred",9,"2011/02/01",1,0.5
+"Branch One","Right Said","Fred",9,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1
+"Branch Two","Rubble","Betty",9,"2011/02/01",,1
+"Branch Two","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1}
       Upload.import_combined(@contents)
       Branch.find_by_name("Branch One").members.find(:all, :conditions => { :surname => "Flintstone"}).should have(2).members
       Branch.find_by_name("Branch One").members.find(:all, :conditions => { :surname => "Right Said"}).should have(1).members
@@ -120,11 +114,11 @@ describe Upload do
       Branch.delete_all
       Event.delete_all
       AttendanceDetail.delete_all
-      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch One","Rubble","Betty",10,1,0.5
-"Branch One","Flintstone","Wilma",9,1,0.5
-"Branch Two","Rubble","Barney",9,,1}
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch One","Rubble","Betty",10,"2011/02/01",1,0.5
+"Branch One","Flintstone","Wilma",9,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1}
     end
     it "should create an attendance detail entry for the each attended event" do
       Upload.import_combined(@contents)
@@ -147,10 +141,10 @@ describe Upload do
       branch_1.events.find(:first, :conditions => { :start => Time.parse("2011/02/26")+2.hours, :grade => 10 }).attendance_details.find(:first, :conditions => { :member_id => fred.id }).status.should == 'partial'
     end
     it "should not create duplicate attendance detail records" do
-      @contents = %Q{"Branch","Surname","First Name","Grade","2011/02/19","2011/02/26"
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch One","Flintstone","Fred",10,1,0.5
-"Branch Two","Rubble","Barney",9,,1}
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/19","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1}
       Upload.import_combined(@contents)
       fred = Member.find_by_first_name("Fred")
       branch_1 = Branch.find_by_name("Branch One")
