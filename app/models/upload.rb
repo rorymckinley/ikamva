@@ -16,10 +16,18 @@ class Upload
 
       combined_record.each do |key,value|
         if key=~ /\d{4}\/\d{2}\/\d{2}/ && value 
-          event = branch.events.find_by_grade_and_start(combined_record["Grade"], Time.parse(key) + 2.hours) || branch.events.create!(:grade => combined_record["Grade"], :start => Time.parse(key) + 2.hours, :end => Time.parse(key) + 4.hours)
+          event = find_or_create_event(branch, combined_record["Grade"], key) { branch.events }
           event.attendance_details.create! :member => member, :status => (value.to_i == 1 ? "full" : "partial") unless event.attendance_details.find_by_member_id(member.id)
         end
       end
     end
+  end
+
+  private
+
+  def self.find_or_create_event(branch, grade, date_string)
+    start = Time.parse(date_string) + 2.hours
+    events = yield
+    events.find_by_grade_and_start(grade, start) || events.create!(:grade => grade, :start => start, :end => start + 2.hours, :purpose => start.wday == 6 ? "tutorial" : "homework")
   end
 end

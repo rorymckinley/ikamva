@@ -69,6 +69,11 @@ describe Upload do
       Branch.find(:first, :conditions => { :name => 'Branch One'}).events.find(:all, :conditions => {:grade => 9}).should have(2).events
       Branch.find(:first, :conditions => { :name => 'Branch Two'}).events.find(:all, :conditions => {:grade => 9}).should have(2).events
     end
+    it "should create weekday events as homework events and weekend events as tutorials" do
+      Upload.import_combined(@contents)
+      Event.find(:first, :conditions => { :start => Time.parse("2011-02-18 02:00:00 +0200")}).purpose.should == 'homework'
+      Event.find(:first, :conditions => { :start => Time.parse("2011-02-26 02:00:00 +0200")}).purpose.should == 'tutorial'
+    end
   end
   context "Members" do
     before(:each) do 
