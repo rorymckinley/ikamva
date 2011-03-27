@@ -79,7 +79,14 @@ describe Upload do
     before(:each) do 
       Member.delete_all
     end
-    it "should strip off trailing and leading spaces from member names"
+    it "should strip off trailing and leading spaces from member names" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/18","2011/02/26"
+"Branch One","  Flintstone   ","  Fred   ",10,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1}
+      Upload.import_combined(@contents)
+      Member.first.first_name.should == "Fred"
+      Member.first.surname.should == "Flintstone"
+    end
     it "should check for duplicates members based on the trimmed member names"
     it "should create members based on the records passed in" do
       Upload.import_combined(@contents)
