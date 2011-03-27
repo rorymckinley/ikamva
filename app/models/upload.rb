@@ -12,7 +12,7 @@ class Upload
       branch = Branch.find_by_name(combined_record[0].strip) || Branch.create!(:name => combined_record[0].strip)
 
       member_parameters = { :first_name => combined_record["First Name"].strip, :surname => combined_record["Surname"].strip, :grade => combined_record["Grade"]}
-      member = branch.members.find(:first, :conditions => member_parameters) || branch.members.create(member_parameters.merge(:participation => "learner"))
+      member = branch.members.find(:first, :conditions => member_parameters) || branch.members.create!(member_parameters.merge(:participation => "learner"))
 
       combined_record.each do |key,value|
         if key=~ /\d{4}\/\d{2}\/\d{2}/ && value 

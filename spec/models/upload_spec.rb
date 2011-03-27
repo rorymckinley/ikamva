@@ -87,7 +87,13 @@ describe Upload do
       Member.first.first_name.should == "Fred"
       Member.first.surname.should == "Flintstone"
     end
-    it "should check for duplicates members based on the trimmed member names"
+    it "should check for duplicates members based on the trimmed member names" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/18","2011/02/26"
+"Branch One","  Flintstone   ","  Fred   ",10,"2011/02/01",1,
+"Branch One","Flintstone","Fred",10,"2011/02/01",,1}
+      Upload.import_combined(@contents)
+      Member.all.should have(1).members
+    end
     it "should create members based on the records passed in" do
       Upload.import_combined(@contents)
       Member.all.should have(2).members
