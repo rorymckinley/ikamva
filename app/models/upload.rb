@@ -8,6 +8,12 @@ class Upload
   end
   def self.import_combined(content)
     Time.zone = 'Pretoria'
+    start_counts = {
+      :branches => Branch.count, 
+      :members => Member.count,
+      :events => Event.count, 
+      :attendance_details => AttendanceDetail.count
+    }
     FasterCSV.parse(content, :headers => true) do |combined_record|
       branch = Branch.find_by_name(combined_record[0].strip) || Branch.create!(:name => combined_record[0].strip)
 
@@ -21,6 +27,7 @@ class Upload
         end
       end
     end
+    start_counts.merge!(start_counts) { |k,v1,v2| k.to_s.singularize.camelize.constantize.count - v1 }
   end
 
   private

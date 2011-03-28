@@ -7,6 +7,11 @@ describe Upload do
 "Branch Two","Rubble","Barney",9,"2011/02/01",,1}
     Branch.delete_all
   end
+  context "stats" do
+    it "should return basic stats indicating the results fo the upload" do
+      Upload.import_combined(@contents).should == { :branches => 2, :members => 2, :events => 3, :attendance_details => 3 }
+    end
+  end
   context "branches" do
     it "should import csv data for branches and create the branches" do
       Upload.import_branches("Branch 1\nBranch 2")
