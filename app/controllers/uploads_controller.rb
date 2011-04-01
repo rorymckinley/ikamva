@@ -10,7 +10,6 @@ class UploadsController < ApplicationController
 
   def combined
     contents = params[:upload][:stuff].read
-    Upload.import_combined(contents)
-    render :text => ''
+    render :text => Upload.import_combined(contents).inspect
   end
 end
