@@ -11,6 +11,7 @@ Ikamva::Application.routes.draw do
       post :combined
     end
   end
+  resources :attendance_record_reports
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
