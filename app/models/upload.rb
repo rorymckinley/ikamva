@@ -23,6 +23,7 @@ class Upload
         @duplicates << member_parameters.merge!({ :branch => branch.name })
         next
       else
+        member_parameters.merge!({ :registration_date => combined_record["Registration Date"] || "#{Time.now.year}-01-01"})
         member = branch.members.create!(member_parameters.merge(:participation => "learner"))
       end
 
