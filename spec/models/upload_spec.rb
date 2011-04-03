@@ -9,7 +9,18 @@ describe Upload do
   end
   context "stats" do
     it "should return basic stats indicating the results fo the upload" do
-      Upload.import_combined(@contents).should == { :branches => 2, :members => 2, :events => 3, :attendance_details => 3 }
+      Upload.import_combined(@contents).should == { :branches => 2, :members => 2, :events => 3, :attendance_details => 3, :duplicates => [] }
+    end
+    it "should indicate in the stats any duplicate learners found in the file" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/18","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch One","Flintstone","Fred",9,"2011/02/01",1,0.5
+"Branch One","Right Said","Fred",9,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1
+"Branch Two","Rubble","Betty",9,"2011/02/01",,1
+"Branch Two","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1}
+      Upload.import_combined(@contents)[:duplicates].should == [{:first_name => 'Barney', :surname => 'Rubble', :grade => "9", :branch => "Branch Two"}]
     end
   end
   context "branches" do
@@ -66,8 +77,8 @@ describe Upload do
       @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/18","2011/02/26"
 "Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
 "Branch One","van Pebbles","Mario",9,"2011/02/01",1,0.5
-"Branch Two","Rubble","Barney",9,"2011/02/01",,1
-"Branch Two","Rubble","Barney",9,"2011/02/01",0.5,1}
+"Branch Two","Rubble","Barney",9,"2011/02/01",0.5,1
+"Branch Two","Flintstone","Wilma",9,"2011/02/01",0.5,1}
       Upload.import_combined(@contents)
       Event.all.should have(6).events
       Branch.find(:first, :conditions => { :name => 'Branch One'}).events.find(:all, :conditions => {:grade => 10}).should have(2).events
@@ -78,6 +89,19 @@ describe Upload do
       Upload.import_combined(@contents)
       Event.find(:first, :conditions => { :start => Time.parse("2011-02-18 02:00:00 +0200")}).purpose.should == 'homework'
       Event.find(:first, :conditions => { :start => Time.parse("2011-02-26 02:00:00 +0200")}).purpose.should == 'tutorial'
+    end
+    it "should not create an event based on a duplicate user entry" do
+      @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/18","2011/02/26"
+"Branch One","Flintstone","Fred",10,"2011/02/01",1,0.5
+"Branch One","Flintstone","Fred",9,"2011/02/01",1,0.5
+"Branch One","Right Said","Fred",9,"2011/02/01",1,0.5
+"Branch Two","Rubble","Barney",9,"2011/02/01",,1
+"Branch Two","Rubble","Betty",9,"2011/02/01",,1
+"Branch Two","Rubble","Barney",9,"2011/02/01",1,1}
+      Upload.import_combined(@contents)
+      events = Branch.find_by_name("Branch Two").events
+      events.size.should == 1
+      events[0].start.should == Time.parse("2011-02-26 02:00:00 SAST")
     end
   end
   context "Members" do
