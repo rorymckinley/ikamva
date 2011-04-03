@@ -1,0 +1,8 @@
+<h1>Select Branch for Attendance Record Report</h1>
+
+<form method="GET" action="<%= attendance_record_reports_path %>"/>
+  <%= select_tag "branch_id", options_from_collection_for_select(@branches, "id", "name") %>
+  <p/>
+  <input type="submit" value="Submit"/>
+</form>
+  

@@ -1,0 +1,7 @@
+<%= 
+FasterCSV.generate(:headers => ["First Name", "Surname", "Grade", "Attendance Record", "Percentage Attendance"], :write_headers => true) do |csv|
+  @report_result[:report].each do |record|
+    csv << [record["First Name"], record["Surname"], record["Grade"], record["Attendance Record"], record["Percentage Attendance"]]
+  end
+end
+%>
