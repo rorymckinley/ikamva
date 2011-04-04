@@ -20,7 +20,6 @@ describe AttendanceRecordReportsController do
     AttendanceRecordReport.should_receive(:generate).with(Branch.first.id).and_return(report_output)
 
     get :index, :branch_id => Branch.first.id
-    # assigns[:report_result].should == report_output
     response.should be_ok
     response.content_type.should == 'text/csv'
     response.header["Content-Disposition"].should =~ /filename=\"#{report_output[:report_name] + ".csv"}\"/
