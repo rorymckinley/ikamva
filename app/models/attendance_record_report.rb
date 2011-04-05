@@ -2,7 +2,7 @@ class AttendanceRecordReport
   def self.generate(branch_id)
     branch = Branch.find(branch_id)
     report_data = branch.members.inject([]) do |coll,member|
-      event_count = branch.events.count(:conditions =>  { :grade => member.grade })
+      event_count = branch.events.count(:conditions =>  ["grade = ? AND start >= ?", member.grade, member.registration_date.to_date ])
       member_listing = {
         :first_name => member.first_name,
         :surname => member.surname,
