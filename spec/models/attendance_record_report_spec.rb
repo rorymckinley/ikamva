@@ -62,4 +62,12 @@ describe AttendanceRecordReport do
     AttendanceRecordReport.generate(@branch_1.id)[:report][0][:percentage_attendance].should == 50.0
   end
 
+  it "should round the percentage to the nearest whole number" do
+    @branch_1.events[0,74].each { |event| event.attendance_details.create! :member_id => @member_1.id, :status => "full" }
+    @branch_1.events[74].attendance_details.create! :member_id => @member_1.id, :status => "partial"
+
+    AttendanceRecordReport.generate(@branch_1.id)[:report][0][:attendance_record].should == "green"
+    AttendanceRecordReport.generate(@branch_1.id)[:report][0][:percentage_attendance].should == 75.0
+  end
+
 end
