@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe AttendanceRecordReport do
   before(:each) do
-    t = Time.parse("2011-04-01 00:00:00 SAST")
+    @t = Time.parse("2011-04-01 00:00:00 SAST")
     @branch_1 = Branch.create! :name => "Branch One"
     @branch_2 = Branch.create! :name => "Branch Two"
-    @member_1 = @branch_1.members.create! :first_name => "Fred", :surname => "Flintstone", :grade => 8, :registration_date => t - 30.days
-    @member_2 = @branch_2.members.create! :first_name => "Barney", :surname => "Rubble", :grade => 8, :registration_date => t - 30.days
+    @member_1 = @branch_1.members.create! :first_name => "Fred", :surname => "Flintstone", :grade => 8, :registration_date => @t - 30.days
+    @member_2 = @branch_2.members.create! :first_name => "Barney", :surname => "Rubble", :grade => 8, :registration_date => @t - 30.days
     (1..100).each do |i|
-      @branch_1.events.create! :start => t - i.days, :end => (t - i.days) + 2.hours
-      @branch_2.events.create! :start => t - i.days, :end => (t - i.days) + 2.hours
+      @branch_1.events.create! :start => @t - i.days, :end => (@t - i.days) + 2.hours, :grade => 8
+      @branch_2.events.create! :start => @t - i.days, :end => (@t - i.days) + 2.hours, :grade => 8
     end
   end
   it "should provide a listing of all the members for a branch and show the attendance stats" do
@@ -40,5 +40,13 @@ describe AttendanceRecordReport do
   it "should mark a member with 100% attendance as status platinum" do
     @branch_1.events[0,100].each { |event| event.attendance_details.create! :member_id => @member_1.id, :status => "full" }
     AttendanceRecordReport.generate(@branch_1.id)[:report].should == [{:first_name => "Fred", :surname => "Flintstone", :grade => 8, :percentage_attendance => 100.0, :attendance_record => "platinum"}]
+  end
+
+  it "should only count events that are for the same grade as the memeber when determining attendance records" do
+    (1..100).each do |i|
+      @branch_1.events.create! :start => @t - i.days, :end => (@t - i.days) + 2.hours, :grade => 10
+    end
+    @branch_1.events[0,100].each { |event| event.attendance_details.create! :member_id => @member_1.id, :status => "full" }
+    AttendanceRecordReport.generate(@branch_1.id)[:report][0][:percentage_attendance].should == 100.0
   end
 end
