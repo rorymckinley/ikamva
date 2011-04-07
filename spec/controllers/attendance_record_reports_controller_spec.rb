@@ -16,7 +16,7 @@ describe AttendanceRecordReportsController do
     assigns[:branches].should == Branch.all
   end
   it "should return the report details for a branch as a csv file" do
-    report_output = { :report_name => Branch.first.name.gsub(/\s+/, '_').camelize + "AttendanceRecords", :report =>  [{ "First Name" => "Fred", "Surname" => "Flintstone", "Attendance Record" => "green", "Percentage Attendance" => 75, "Grade" => 8 }]}
+    report_output = { :report_name => Branch.first.name.gsub(/\s+/, '_').camelize + "AttendanceRecords", :report =>  [{ :first_name => "Fred", :surname => "Flintstone", :attendance_record => "green", :percentage_attendance => 75, :grade => 8 }]}
     AttendanceRecordReport.should_receive(:generate).with(Branch.first.id).and_return(report_output)
 
     get :index, :branch_id => Branch.first.id
