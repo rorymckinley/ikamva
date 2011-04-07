@@ -18,7 +18,12 @@ describe AttendanceRecordReport do
     end
   end
   it "should provide a listing of all the members for a branch and show the attendance stats" do
-    AttendanceRecordReport.generate(@branch_1.id)[:report].should == [{:first_name => "Fred", :surname => "Flintstone", :grade => 8, :percentage_attendance => 0, :attendance_record => nil}]
+    AttendanceRecordReport.generate(@branch_1.id)[:report].should == [{:first_name => "Fred", :surname => "Flintstone", :grade => 8, :percentage_attendance => 0, :attendance_record => "red"}]
+  end
+
+  it "should mark a member with less than 75 % attendance as status red" do
+    @branch_1.events[0,74].each { |event| event.attendance_details.create! :member_id => @member_1.id, :status => "full" }
+    AttendanceRecordReport.generate(@branch_1.id)[:report].should == [{:first_name => "Fred", :surname => "Flintstone", :grade => 8, :percentage_attendance => 74.0, :attendance_record => "red"}]
   end
 
   it "should mark a member with between 75 and 79% attendance as status green" do

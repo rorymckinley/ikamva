@@ -26,6 +26,8 @@ class AttendanceRecordReport
       "gold"
     when 100
       "platinum"
+    else 
+      "red"
     end
   end
 end
