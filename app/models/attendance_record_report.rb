@@ -2,7 +2,7 @@ class AttendanceRecordReport
   def self.generate(branch_id)
     branch = Branch.find(branch_id)
     report_data = branch.members.inject([]) do |coll,member|
-      event_count = branch.events.count(:conditions =>  ["grade = ? AND start >= ?", member.grade, member.registration_date.to_date ])
+      event_count = (branch.events.find(:all, :conditions => {:grade => member.grade}).select { |e| e.start >= member.registration_date }).size
       percentage_attendance = ((member.attendance_total.to_f / event_count.to_f) * 100.0).round(0).to_i
       member_listing = {
         :first_name => member.first_name,
@@ -13,7 +13,7 @@ class AttendanceRecordReport
       }
       coll + [member_listing]
     end
-    { :report => report_data }
+    { :report => report_data, :report_name => branch.name.gsub(/\s+/, '_').camelize }
   end
   private
   def self.calculate_attendance_record(percentage)

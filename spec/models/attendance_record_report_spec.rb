@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AttendanceRecordReport do
   before(:each) do
+    Time.zone = "Pretoria"
     Branch.delete_all
     Event.delete_all
     Member.delete_all
@@ -70,4 +71,7 @@ describe AttendanceRecordReport do
     AttendanceRecordReport.generate(@branch_1.id)[:report][0][:percentage_attendance].should == 75.0
   end
 
+  it "should include the branch name in the output of the report" do
+    AttendanceRecordReport.generate(@branch_1.id)[:report_name].should == @branch_1.name.gsub(/\s+/, '_').camelize
+  end
 end
