@@ -7,7 +7,6 @@ class Upload
     end
   end
   def self.import_combined(content)
-    Time.zone = 'Pretoria'
     start_counts = {
       :branches => Branch.count, 
       :members => Member.count,

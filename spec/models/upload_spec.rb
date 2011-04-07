@@ -58,7 +58,6 @@ describe Upload do
   end
   context "Events" do
     before(:each) do
-      Time.zone = "Pretoria"
       Event.delete_all
     end
     it "should create an event representing for which there has been attendance and linked to the appropriate grade" do

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe AttendanceRecordReport do
   before(:each) do
-    Time.zone = "Pretoria"
     Branch.delete_all
     Event.delete_all
     Member.delete_all
