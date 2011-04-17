@@ -2,6 +2,7 @@ class MembersController < ApplicationController
   def new
     @branch = Branch.find(params[:branch_id])
     @participation_types = Member.participation_types
+    render :layout => "member"
   end
 
   def create
@@ -20,6 +21,7 @@ class MembersController < ApplicationController
     @branch = Branch.find(params[:branch_id])
     @member = Member.find(params[:id])
     @participation_types = Member.participation_types
+    render :layout => "member"
   end
 
   def update

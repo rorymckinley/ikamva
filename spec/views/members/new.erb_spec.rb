@@ -19,6 +19,8 @@ describe "members/new.erb" do
       form.should have_selector("input", :type => "text", :name => "member[address]" )
       form.should have_selector("input", :type => "text", :name => "member[email]" )
       form.should have_selector("input", :type => "text", :name => "member[id_number]" )
+      form.should have_selector("input", :type => "text", :name => "member[grade]" )
+      form.should have_selector("input", :type => "text", :name => "member[registration_date]" )
 
       form.should have_selector("select", :name => "member[participation]") do |select|
         select.should have_selector("option", :value => 'learner') do |option|

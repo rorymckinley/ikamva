@@ -34,6 +34,14 @@
 <%= f.text_field :id_number %>
 <p/>
 
+<%= f.label :grade %>
+<%= f.text_field :grade %>
+<p/>
+
+<%= f.label :registration_date %>
+<%= f.text_field :registration_date, :id => "registration_date" %>
+<p/>
+
 <%= f.label :participation %>
 <%= f.select :participation, @participation_types.map { |type_set| type_set.to_a[0].reverse } %>
 <p/>
