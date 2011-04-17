@@ -141,11 +141,11 @@ describe Upload do
     end
     it "should set the registration date for a member if provided" do
       Upload.import_combined(@contents)
-      Member.find_by_first_name("Fred").registration_date.strftime("%Y-%m-%d").should == "2011-02-01"
+      Member.find_by_first_name("Fred").registration_date.strftime("%Y-%m-%d %H:%M:%S %z").should == "2011-02-01 00:00:00 +0200"
     end
     it "should set the registration date for a member to the start of the year if no date is provided" do
       Upload.import_combined(@contents)
-      Member.find_by_first_name("Barney").registration_date.strftime("%Y-%m-%d").should == "#{Time.now.year}-01-01"
+      Member.find_by_first_name("Barney").registration_date.strftime("%Y-%m-%d %H:%M:%S %z").should == "#{Time.now.year}-01-01 00:00:00 +0200"
     end
     it "should not create members if they already exist for that branch based on first name, surname and grade" do
       @contents = %Q{"Branch","Surname","First Name","Grade","Registration Date","2011/02/18","2011/02/26"
